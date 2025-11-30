@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.clipped{
+    clip-path: inset(15% 0% 0% 38%);
+}

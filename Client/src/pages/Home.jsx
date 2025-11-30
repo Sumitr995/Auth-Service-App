@@ -4,7 +4,7 @@ import Header from '../Components/Header'
 
 const Home = () => {
   return (
-    <div className='bg-[url("/bg_img.png")]'>
+    <div className='bg-[url("/bg_img.png")] h-screen'>
       <h1>
         <Navbar/>
         <Header/>

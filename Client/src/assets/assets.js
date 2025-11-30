@@ -7,6 +7,9 @@ import hand_wave from './hand_wave.png'
 import header_img from './header_img.png'
 import new_header from './new_header.png'
 
+
+const Register_img = 'https://static-cse.canva.com/blob/1145215/1.magebyRodionKutsaevviaUnsplash.9634f837.avif'
+
 export const assets = {
     arrow_icon,
     lock_icon,
@@ -15,5 +18,6 @@ export const assets = {
     person_icon,
     hand_wave,
     header_img,
-    new_header
+    new_header,
+    Register_img
 }
