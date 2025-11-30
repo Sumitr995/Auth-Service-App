@@ -10,7 +10,7 @@ const Header = () => {
         <>
 
             
-                <div className='flex items-center justify-center flex-col h-[70vh] font-semibold '>
+                <div className='flex items-center justify-center flex-col h-[70vh] font-semibold text-white '>
                     <img className='h-38 w-38 ' src={assets.new_header} alt="header_img" />
                     <div className='flex gap-1 items-center text-2xl font-semibold '>
                         <h1>Hey Developer</h1>
@@ -22,7 +22,7 @@ const Header = () => {
                         lets start with quick product tour and start our journey together !
                     </p>
                     <button
-                        className='flex items-center gap-2 border border-gray-500 px-6 py-2 cursor-pointer rounded-full my-5 hover:bg-gray-100 transition-all'
+                        className='flex items-center gap-2 border border-gray-500 px-6 py-2 cursor-pointer rounded-full my-5 hover:text-gray-500 transition-all'
                     onClick={()=>navigate('/register')}
                     >
                         Get Started

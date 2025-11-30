@@ -6,6 +6,7 @@ import person_icon from './person_icon.svg'
 import hand_wave from './hand_wave.png'
 import header_img from './header_img.png'
 import new_header from './new_header.png'
+// import Dark_BG from "./Dark_BG.jpg";
 
 
 const Register_img = 'https://static-cse.canva.com/blob/1145215/1.magebyRodionKutsaevviaUnsplash.9634f837.avif'
@@ -19,5 +20,6 @@ export const assets = {
     hand_wave,
     header_img,
     new_header,
-    Register_img
+    Register_img,
+    // Dark_BG
 }
