@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import ResetPassword from './pages/ResetPassword'
 import EmailVerify from './pages/EmailVerify'
 import Register from './pages/Register'
+import Dashboard from './pages/Dashboard'
 const App = () => {
   return (
     <div>
@@ -14,6 +15,7 @@ const App = () => {
           <Route path='/login' element={<Login/>}/>
           <Route path='/reset-password' element={<ResetPassword/>}/>
           <Route path='/email-verify' element={<EmailVerify/>}/>
+          <Route path='/dashboard' element={<Dashboard/>}/>
         </Routes>
     </div>
   )

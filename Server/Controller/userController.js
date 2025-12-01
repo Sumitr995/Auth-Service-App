@@ -7,11 +7,11 @@ try {
     const user = await userModel.findById(userId);
 
     if(!user){
-       return res.json({success:false, message:"User not logged in"});
+       return res.status(400).json({success:false, message:"User not logged in"});
     }
 
     console.log(user.name)
-    return res.json({
+    return res.status(200).json({
         success: true,
         userData:{
             name: user.name,
@@ -22,7 +22,7 @@ try {
    
     
 } catch (error) {
-    res.json({success:false, message: error.message});
+    res.status(400).json({success:false, message: error.message});
 }
 
 };
