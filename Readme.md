@@ -12,12 +12,12 @@ This repository currently contains the **completed backend**, while the **fronte
 
 ## 🔄 Development Roadmap
 
-| Phase             |     Status     | Description                            |
-| ----------------- | :------------: | -------------------------------------- |
-| Backend API       |     ✅ Done     | Auth logic with JWT, email, and bcrypt |
-| Frontend Setup    | ⚙️ In Progress | React + Axios + Router + Toastify      |
-| Integration       |     🔜 Next    | Connect frontend with backend APIs     |
-| Role-Based Access |   🔜 Planned   | Admin/User control                     |
+| Phase             |     Status      | Description                            |
+| ----------------- | :------------:  | -------------------------------------- |
+| Backend API       |     ✅ Done    | Auth logic with JWT, email, and bcrypt |
+| Frontend Setup    |     ✅ Done    | React + Axios + Router + Toastify      |
+| Integration       |     ✅ Done    | Connect frontend with backend APIs     |
+| Role-Based Access |     ✅ Done    | Admin/User control                     |
 | OAuth Login       |   🔜 Planned   | Google & GitHub authentication         |
 | 2FA Security      |   🔜 Planned   | Two-Factor Authentication              |
 
