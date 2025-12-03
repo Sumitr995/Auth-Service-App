@@ -5,12 +5,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
 import { AuthContext } from "../Context/AuthContext";
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
-    const [Sign, setSign] = useState('Sign Up');
+
+const Register = ({ Sign, setSign }) => {
     const { setUser, setToken } = useContext(AuthContext);
 
     const Backend_URL = import.meta.env.VITE_BACKEND_URL;
+    const navigate = useNavigate();
 
     const {
         register,
@@ -39,19 +41,20 @@ const Register = () => {
 
             setUser(true);
 
-            if(res.data.success){
+            if (res.data.success) {
                 toast.success(res.data.message, {
-                position: "top-right",
-                autoClose: 2000,
-            });
-            }else{
+                    position: "top-right",
+                    autoClose: 2000,
+                });
+            } else {
                 toast.error(res.data.message, {
-                position: "top-right",
-                autoClose: 2000,
-            });
+                    position: "top-right",
+                    autoClose: 2000,
+                });
             }
 
             reset();
+            navigate('/dashboard')
 
         } catch (err) {
             toast.error(err.response?.data?.message || "Something went wrong");
@@ -59,12 +62,15 @@ const Register = () => {
     };
 
 
+
+
     return (
-        <div className=' h-screen flex items-center justify-center bg-[url("https://img.freepik.com/free-vector/grey-hexagons-black-background_78370-2098.jpg?t=st=1764520835~exp=1764524435~hmac=1eb5cf83b58afa46ea5198423a50ab1e191c9af1b3f9dea51c7a12ad6240332e&w=2000")] relative bg-center bg-no-repeat bg-fixed '>
+        <div className=' h-screen flex items-center justify-center bg-[url("https://img.freepik.com/free-vector/grey-hexagons-black-background_78370-2098.jpg?t=st=1764520835~exp=1764524435~hmac=1eb5cf83b58afa46ea5198423a50ab1e191c9af1b3f9dea51c7a12ad6240332e&w=2000")] relative bg-center bg-no-repeat pointer-events-none '>
 
             <img className=' absolute top-5 left-5 sm:left-5  w-28 sm:w-32 cursor-pointer' src={assets.logo} alt="" />
 
-            <div className=' bg-gray-900 w-[30vw] h-[60vh] rounded-2xl flex flex-col items-center justify-center'>
+            {/* FIXED z-index HERE */}
+            <div className=' bg-gray-900 w-[30vw] h-[60vh] rounded-2xl flex flex-col items-center justify-center z-[999] pointer-events-auto '>
                 <h3 className='px-2 text-2xl font-bold text-white'>
                     {Sign === 'Sign Up' ? 'Create Account' : 'Login Account'}
                 </h3>
@@ -120,10 +126,9 @@ const Register = () => {
                             {Sign === 'Sign Up' ? 'Already have an account?' : `Don't have an account?`}
                             {' '}
                             <span
-                                onClick={() =>
-                                    setSign(Sign === 'Sign Up' ? 'Login' : 'Sign Up')
-                                }
-                                className='text-purple-500 hover:text-purple-800 cursor-pointer hover:underline'>
+                                onClick={() => setSign(Sign === 'Sign Up' ? 'Login' : 'Sign Up')}
+                                className='text-purple-500 hover:text-purple-800 cursor-pointer hover:underline pointer-events-auto'
+                            >
                                 {Sign === 'Sign Up' ? 'Login Here' : 'Sign Up'}
                             </span>
                         </div>
