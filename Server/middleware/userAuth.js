@@ -1,29 +1,28 @@
 import jwt from "jsonwebtoken";
 
-// Take Token from client convert it into userId
+const userAuth = (req, res, next) => {
+  const token = req.cookies?.token;
 
-const userAuth = async (req, res, next) => {
-  const { token } = req.cookies;
   if (!token) {
-    res
-      .status(400)
-      .json({ success: false, message: "Not Authorized. Login Again !" });
+    return res.status(401).json({
+      success: false,
+      message: "Not Authorized. Login Again!",
+    });
   }
 
   try {
-    const tokenDecoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (tokenDecoded.id) {
-      req.user = tokenDecoded;
-    } else {
-      res
-        .status(400)
-        .json({ success: false, message: "Not Authorized. Login Again !" });
-    }
+    // Attach ONLY necessary info
+    req.user = { id: decoded.id };
 
-    next();
+    return next();
+
   } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
+    return res.status(401).json({
+      success: false,
+      message: "Invalid or expired token",
+    });
   }
 };
 

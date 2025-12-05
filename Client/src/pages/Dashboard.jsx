@@ -1,11 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { User, LogOut, Shield, KeyRound, Mail, Activity, Lock, Bell } from 'lucide-react';
 import DashNavbar from '../Components/dashNavbar';
 import DashMain from '../Components/DashMain';
+import axios from 'axios';
 
 export default function AuthLandingPage() {
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(null);
+  const [UserInfo, setUserInfo] = useState(null)
+
+  const Backend_URL = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(
+        `${Backend_URL}/user/data`,
+        { withCredentials: true }
+      );
+      setUserInfo(res.data.userData);
+      // console.log(res.data.userData);
+      
+    } catch (err) {
+      console.log("FETCH ERROR:", err.response?.data || err.message);
+    }
+  };
+
+  fetchUser();
+}, []);
+
 
   const handleVerify = () => {
     setShowModal('verify');
@@ -26,10 +49,10 @@ export default function AuthLandingPage() {
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100 relative overflow-hidden">
       {/* Navigation */}
-      <DashNavbar showMenu={showMenu} setShowMenu={setShowMenu} showModal={showModal} setShowModal={setShowModal} handleVerify={handleVerify} handleReset={handleReset} handleLogout={handleLogout} closeModal={closeModal} />
+      <DashNavbar showMenu={showMenu} UserInfo={UserInfo} setShowMenu={setShowMenu} showModal={showModal} setShowModal={setShowModal} handleVerify={handleVerify} handleReset={handleReset} handleLogout={handleLogout} closeModal={closeModal} />
       {/* Main content */}
-      <DashMain showMenu={showMenu} setShowMenu={setShowMenu} showModal={showModal} setShowModal={setShowModal} handleVerify={handleVerify} handleReset={handleReset} handleLogout={handleLogout} closeModal={closeModal} />
- 
+      <DashMain showMenu={showMenu} UserInfo={UserInfo} setShowMenu={setShowMenu} showModal={showModal} setShowModal={setShowModal} handleVerify={handleVerify} handleReset={handleReset} handleLogout={handleLogout} closeModal={closeModal} />
+
 
       {/* Modals */}
       {showModal === 'verify' && (
@@ -54,8 +77,8 @@ export default function AuthLandingPage() {
               <h2 className="text-2xl font-bold">Reset Password</h2>
             </div>
             <p className="text-gray-400 mb-4 text-sm">Enter your email to receive a password reset link</p>
-            <input 
-              type="email" 
+            <input
+              type="email"
               placeholder="john@example.com"
               defaultValue="john@example.com"
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg mb-4 focus:outline-none focus:border-blue-500 transition-colors"

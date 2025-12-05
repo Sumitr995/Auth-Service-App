@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { assets } from "../assets/assets";
 import { useForm } from "react-hook-form"
 import { ToastContainer, toast } from "react-toastify";
@@ -27,13 +27,13 @@ const Register = ({ Sign, setSign }) => {
 
             if (Sign === 'Sign Up') {
                 res = await axios.post(
-                    `${Backend_URL}/register`,
+                    `${Backend_URL}/auth/register`,
                     data,
                     { withCredentials: true }
                 );
             } else {
                 res = await axios.post(
-                    `${Backend_URL}/login`,
+                    `${Backend_URL}/auth/login`,
                     data,
                     { withCredentials: true }
                 );
@@ -53,7 +53,7 @@ const Register = ({ Sign, setSign }) => {
                 });
             }
 
-            reset();
+            reset();  
             navigate('/dashboard')
 
         } catch (err) {
@@ -70,7 +70,7 @@ const Register = ({ Sign, setSign }) => {
             <img className=' absolute top-5 left-5 sm:left-5  w-28 sm:w-32 cursor-pointer' src={assets.logo} alt="" />
 
             {/* FIXED z-index HERE */}
-            <div className=' bg-gray-900 w-[30vw] h-[60vh] rounded-2xl flex flex-col items-center justify-center z-[999] pointer-events-auto '>
+            <div className=' bg-gray-900 w-[30vw] h-[60vh] rounded-2xl flex flex-col items-center justify-center z-999 pointer-events-auto '>
                 <h3 className='px-2 text-2xl font-bold text-white'>
                     {Sign === 'Sign Up' ? 'Create Account' : 'Login Account'}
                 </h3>
