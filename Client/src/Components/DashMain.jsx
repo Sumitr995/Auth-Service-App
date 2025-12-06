@@ -1,5 +1,5 @@
 import React from 'react'
-import { User, LogOut, Shield, KeyRound, Mail, Activity, Lock, Bell } from 'lucide-react';
+import { Shield, KeyRound, Mail, Activity, Lock, Bell } from 'lucide-react';
 
 const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
   let firstName = UserInfo?.name.split(" ")[0];
