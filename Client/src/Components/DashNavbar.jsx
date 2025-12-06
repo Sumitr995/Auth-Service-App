@@ -3,7 +3,7 @@ import { User, LogOut, Shield, KeyRound, Mail } from 'lucide-react';
 import { assets } from '../assets/assets';
 
 
-const DashNavbar = ({ showMenu, setShowMenu, showModal, setShowModal, handleLogout, handleReset, handleVerify, UserInfo }) => {
+const DashNavbar = ({ showMenu, setShowMenu, handleLogout, handleReset, handleVerify, UserInfo }) => {
   // console.log(UserInfo)
   let firstName = UserInfo?.name.split(" ")[0];
 
@@ -54,7 +54,7 @@ const DashNavbar = ({ showMenu, setShowMenu, showModal, setShowModal, handleLogo
             </button>
             <button
               onClick={handleLogout}
-              className="w-full flex items-center space-x-3 px-4 py-3 hover:bg-red-900/20 transition-colors text-left border-t border-gray-800"
+              className="w-full flex items-center space-x-3 px-4 py-3 hover:bg-red-900/20 transition-colors text-left border-t border-gray-800 cursor-pointer hover:scale-95"
             >
               <LogOut className="w-4 h-4 text-red-400" />
               <span className="text-sm text-red-400">Logout</span>

@@ -3,31 +3,35 @@ import { User, LogOut, Shield, KeyRound, Mail, Activity, Lock, Bell } from 'luci
 import DashNavbar from '../Components/dashNavbar';
 import DashMain from '../Components/DashMain';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-export default function AuthLandingPage() {
+export default function AuthLandingPage({setSign}) {
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(null);
   const [UserInfo, setUserInfo] = useState(null)
+  const navigate = useNavigate();
+  
 
   const Backend_URL = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
-  const fetchUser = async () => {
-    try {
-      const res = await axios.get(
-        `${Backend_URL}/user/data`,
-        { withCredentials: true }
-      );
-      setUserInfo(res.data.userData);
-      // console.log(res.data.userData);
-      
-    } catch (err) {
-      console.log("FETCH ERROR:", err.response?.data || err.message);
-    }
-  };
+    const fetchUser = async () => {
+      try {
+        const res = await axios.get(
+          `${Backend_URL}/user/data`,
+          { withCredentials: true }
+        );
+        setUserInfo(res.data.userData);
+        // console.log(res.data.userData);
 
-  fetchUser();
-}, []);
+      } catch (err) {
+        console.log("FETCH ERROR:", err.response?.data || err.message);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
 
   const handleVerify = () => {
@@ -38,8 +42,33 @@ export default function AuthLandingPage() {
     setShowModal('reset');
   };
 
-  const handleLogout = () => {
-    alert('Logged out successfully');
+  const handleLogout = async () => {
+    let res;
+
+    res = await axios.post(
+      `${Backend_URL}/auth/logout`,
+      { withCredentials: true }
+    );
+
+
+    if (res.data.success) {
+      toast.success(res.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    } else {
+      toast.error(res.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    }
+
+    setTimeout(() => {
+      navigate('/login')
+      setSign('Log In')
+    }, 1500);
+
+
   };
 
   const closeModal = () => {

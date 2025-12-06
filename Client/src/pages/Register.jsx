@@ -53,8 +53,12 @@ const Register = ({ Sign, setSign }) => {
                 });
             }
 
-            reset();  
-            navigate('/dashboard')
+            reset();
+            
+            setTimeout(()=>{
+              navigate('/dashboard')  
+            },1500);
+            
 
         } catch (err) {
             toast.error(err.response?.data?.message || "Something went wrong");
@@ -114,7 +118,8 @@ const Register = ({ Sign, setSign }) => {
                             />
                         </div>
 
-                        <div className='text-purple-500 hover:text-purple-800 cursor-pointer w-32 text-center hover:underline'>
+                        <div 
+                        className='text-purple-500 hover:text-purple-800 cursor-pointer w-32 text-center hover:underline'>
                             forgot password?
                         </div>
 
