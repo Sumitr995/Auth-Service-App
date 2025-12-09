@@ -18,7 +18,7 @@ const Header = ({ setSign }) => {
                 </div>
 
                 <h1 className='text-3xl font-semibold'>Welcome to my Auth app</h1>
-                <p>
+                <p className='text-center' >
                     lets start with quick product tour and start our journey together !
                 </p>
                 <button

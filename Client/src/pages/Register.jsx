@@ -69,12 +69,12 @@ const Register = ({ Sign, setSign }) => {
 
 
     return (
-        <div className=' h-screen flex items-center justify-center bg-[url("https://img.freepik.com/free-vector/grey-hexagons-black-background_78370-2098.jpg?t=st=1764520835~exp=1764524435~hmac=1eb5cf83b58afa46ea5198423a50ab1e191c9af1b3f9dea51c7a12ad6240332e&w=2000")] relative bg-center bg-no-repeat pointer-events-none '>
+        <div className=' h-screen flex items-center justify-center bg-[url("/Dark_BG.jpg")] relative bg-center bg-cover bg-no-repeat pointer-events-none '>
 
             <img className=' absolute top-5 left-5 sm:left-5  w-28 sm:w-32 cursor-pointer' src={assets.logo} alt="" />
 
             {/* FIXED z-index HERE */}
-            <div className=' bg-gray-900 w-[30vw] h-[60vh] rounded-2xl flex flex-col items-center justify-center z-999 pointer-events-auto '>
+            <div className=' bg-gray-900 w-[360px] h-[60vh] rounded-2xl flex flex-col items-center justify-center z-999 pointer-events-auto '>
                 <h3 className='px-2 text-2xl font-bold text-white'>
                     {Sign === 'Sign Up' ? 'Create Account' : 'Login Account'}
                 </h3>

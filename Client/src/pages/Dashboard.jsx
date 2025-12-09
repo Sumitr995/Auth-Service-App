@@ -12,6 +12,9 @@ export default function AuthLandingPage({ setSign }) {
   const [UserInfo, setUserInfo] = useState(null)
   const [sentOtp, setSentOtp] = useState(false);
   const [otp, setOtp] = useState("");
+  const [ResetPassword, setResetPassword] = useState("")
+  const [ResetState, setResetState] = useState("resetOTP")
+  const [NewPassword, setNewPassword] = useState("")
 
   const navigate = useNavigate();
 
@@ -54,6 +57,7 @@ export default function AuthLandingPage({ setSign }) {
       });
     }
     setSentOtp(true);
+
 
   }
 
@@ -124,6 +128,47 @@ export default function AuthLandingPage({ setSign }) {
 
 
   };
+
+  const resetPwd = async () => {
+    let res;
+    res = await axios.post(`${Backend_URL}/auth/sent-reset-otp`,
+      { email: ResetPassword },
+      { withCredentials: true }
+    )
+    if (res.data.success) {
+      toast.success(res.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      setResetState("Verifying")
+    } else {
+      toast.error(res.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    }
+  }
+
+  const ResetPwdOtp = async () => {
+    let res;
+    res = await axios.post(`${Backend_URL}/auth/reset-password`,
+      { email:ResetPassword, otp: otp, newPassword:NewPassword },
+      { withCredentials: true }
+    )
+    if (res.data.success) {
+      toast.success(res.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+      });
+      setShowModal(null)
+      
+    } else {
+      toast.error(res.data.message, {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    }
+  }
 
   const closeModal = () => {
     setShowModal(null);
@@ -216,12 +261,7 @@ export default function AuthLandingPage({ setSign }) {
                             }
                           }}
                           id={`otp-${idx}`}
-                          className="
-                  w-10 h-12 text-center text-xl
-                  bg-gray-800 border border-gray-700 rounded-lg
-                  focus:outline-none focus:border-blue-500
-                  text-white
-                "
+                          className="w-10 h-12 text-center text-xl bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-50 text-white"
                         />
                       ))}
                     </div>
@@ -243,9 +283,6 @@ export default function AuthLandingPage({ setSign }) {
                 )}
               </>
             )}
-
-
-
           </div>
         </div>
       )}
@@ -257,16 +294,75 @@ export default function AuthLandingPage({ setSign }) {
               <KeyRound className="w-6 h-6 text-yellow-400" />
               <h2 className="text-2xl font-bold">Reset Password</h2>
             </div>
-            <p className="text-gray-400 mb-4 text-sm">Enter your email to receive a password reset link</p>
-            <input
-              type="email"
-              placeholder="john@example.com"
-              defaultValue="john@example.com"
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg mb-4 focus:outline-none focus:border-blue-500 transition-colors"
-            />
-            <button onClick={closeModal} className="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-              Send Reset Link
-            </button>
+            {(ResetState === "resetOTP") ?
+              (<><p className="text-gray-400 mb-4 text-sm">Enter your email to receive a password reset link</p>
+                <input
+                  onChange={(e) => setResetPassword(e.target.value)}
+                  type="email"
+                  placeholder="Sumitr995@example.com"
+                  // defaultValue="itzsumitr995@example.com"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg mb-4 focus:outline-none focus:border-blue-500 transition-colors"
+                />
+                <button onClick={resetPwd}
+                  className="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-semibold cursor-pointer ">
+                  Send Reset Link
+                </button>
+              </>) :
+              (<>
+                <p className="text-gray-400 mb-3">
+                  Enter the 6-digit OTP sent to <span className="text-white">{UserInfo?.email}</span>
+                </p>
+
+                {/* OTP BOXES */}
+                <div className="flex gap-3 justify-center mb-6">
+                  {Array.from({ length: 6 }).map((_, idx) => (
+                    <input
+                      key={idx}
+                      maxLength={1}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, "");
+                        let otpArray = otp.split("");
+                        otpArray[idx] = val;
+                        const newOtp = otpArray.join("");
+                        setOtp(newOtp);
+
+                        // move to next box
+                        if (val && idx < 5) {
+                          document.getElementById(`otp-${idx + 1}`).focus();
+                        }
+                      }}
+                      id={`otp-${idx}`}
+                      className="w-10 h-12 text-center text-xl bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-50 text-white"
+                    />
+
+                  ))}
+                </div>
+                {/* NEW PASSWORD INPUT */}
+                <div className="mb-6">
+                  <input
+                    type="password"
+                    placeholder="Enter new password"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-400"
+                    value={NewPassword}
+                    onChange={(e) =>{setNewPassword(e.target.value);}}
+                  />
+                </div>
+                <button
+                  onClick={() => {
+                    if (otp.length === 6) {
+                      console.log("Verify OTP:", otp);
+                      console.log(NewPassword);
+                      ResetPwdOtp()
+                    } else {
+                      toast.error("Please enter all 6 digits");
+                    }
+                  }}
+                  className="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                >
+                  Verify Email
+                </button>
+              </>
+              )}
           </div>
         </div>
       )}
@@ -274,3 +370,5 @@ export default function AuthLandingPage({ setSign }) {
     </div>
   );
 }
+
+
