@@ -1,16 +1,51 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
-    name: { type : String , required:true},
-    email: { type : String , required:true, unique:true},
-    password: { type : String , required:true, unique:true},
-    verifyOtp: { type : String , default:'' },
-    verifyOtpExpireAt: { type : Number , default:0 },
-    isAccountVerfied: { type : Boolean , default: false },
-    resetOtp: { type: String , default:''},
-    resetOtpExpireAt: {type:Number, default:0}
-})
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-const userModel = mongoose.models.user || mongoose.model('user', userSchema);
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
 
-export default userModel;
+    passwordHash: {
+      type: String,
+      required: true,
+    },
+
+    appId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "App",
+      required: true,
+      index: true,
+    },
+
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+  },
+  {
+    timestamps: true, // 🔥 adds createdAt & updatedAt
+  }
+);
+
+// 🔥 COMPOUND UNIQUE INDEX (VERY IMPORTANT)
+userSchema.index({ email: 1, appId: 1 }, { unique: true });
+
+const User = mongoose.models.User || mongoose.model("User", userSchema);
+
+export default User;

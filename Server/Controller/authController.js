@@ -2,61 +2,33 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import transporter from "../config/nodemailer.js";
+import { registerUser } from "../services/authService.js";
 
 // Functions to control Register, Login, Logout etc
 
 // register
 
 export const register = async (req, res) => {
-  let { name, email, password } = req.body;
-  if (!name || !email || !password) {
-    return res.status(400).json({ success: false, message: "Missing Details" });
-  }
   try {
-    const existingUser = await userModel.findOne({ email });
+    const { name, email, password } = req.body;
 
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User Already Exist's " });
-    }
-
-    const hashedpassword = await bcrypt.hash(password, 10);
-
-    const user = new userModel({ name, email, password: hashedpassword });
-    await user.save();
-
-    // JWT token creating
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+    const result = await registerUser({
+      name,
+      email,
+      password,
+      appId: req.app._id, // from API key middleware
     });
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "Production",
-      samesite: process.env.NODE_ENV == "Production" ? "none" : "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // converted in ms
+    return res.status(201).json({
+      success: true,
+      data: result,
     });
 
-    // confirmation mail functionality
-
-    const mailOptions = {
-      from: process.env.SENDER_EMAIL,
-      to: email,
-      subject: "Welcome to Sumit's Auth App",
-      text: `
-        Hello ${name} !,
-        Welcome to Sumit's Auth App. Your Account has been created with email id: ${email}.
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
-
-    return res
-      .status(200)
-      .json({ success: true, message: "Welcome Email sent successfully" });
   } catch (error) {
-    return res.status(400).json({ success: false, message: error.message });
+    return res.status(error.status || 500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 

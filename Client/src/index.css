@@ -1,5 +1,178 @@
 @import "tailwindcss";
 
-.clipped{
-    clip-path: inset(15% 0% 0% 38%);
+@theme {
+  /* Font Family - Substitutes used per DESIGN.md */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Spacing System - Base 4px */
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 40px;
+  --spacing-3xl: 48px;
+  --spacing-4xl: 64px;
+  --spacing-5xl: 96px;
+  --spacing-6xl: 128px;
+  --spacing-section: 192px;
+
+  /* Border Radius Scale */
+  --radius-xs: 4px;
+  --radius-sm: 6px; /* --geist-radius */
+  --radius-md: 8px; /* --geist-marketing-radius */
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill-sm: 64px;
+  --radius-pill: 100px;
+}
+
+:root {
+  /* Surface Colors */
+  --canvas: #ffffff;
+  --canvas-soft: #fafafa;
+  --canvas-soft-2: #f5f5f5;
+  --hairline: #ebebeb;
+  --hairline-strong: #a1a1a1;
+  --primary: #171717; /* Ink */
+
+  /* Text Colors */
+  --ink: #171717;
+  --body: #4d4d4d;
+  --mute: #888888;
+  --on-primary: #ffffff;
+
+  /* Brand Colors */
+  --cyan: #50e3c2;
+  --highlight-pink: #ff0080;
+  --violet: #7928ca;
+  --link-blue: #0070f3;
+
+  /* Semantic */
+  --success: #0070f3;
+  --error: #ee0000;
+  --warning: #f5a623;
+
+  /* Gradients */
+  --gradient-develop: linear-gradient(90deg, #007cf0, #00dfd8);
+  --gradient-preview: linear-gradient(90deg, #7928ca, #ff0080);
+  --gradient-ship: linear-gradient(90deg, #ff4d4d, #f9cb28);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #000000;
+    --canvas-soft: #0a0a0a;
+    --canvas-soft-2: #111111;
+    --hairline: #333333;
+    --hairline-strong: #666666;
+    --primary: #ffffff;
+
+    --ink: #ffffff;
+    --body: #a1a1a1;
+    --mute: #666666;
+    --on-primary: #000000;
+  }
+}
+
+/* Base Styles */
+body {
+  background-color: var(--canvas-soft);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+/* Typography Utilities per DESIGN.md Hierarchy */
+@layer utilities {
+  .text-display-xl { font-size: 48px; font-weight: 600; line-height: 48px; letter-spacing: -2.4px; }
+  .text-display-lg { font-size: 32px; font-weight: 600; line-height: 40px; letter-spacing: -1.28px; }
+  .text-display-md { font-size: 24px; font-weight: 600; line-height: 32px; letter-spacing: -0.96px; }
+  .text-display-sm { font-size: 20px; font-weight: 600; line-height: 28px; letter-spacing: -0.6px; }
+  
+  .text-body-lg { font-size: 18px; font-weight: 400; line-height: 28px; letter-spacing: 0; }
+  .text-body-md { font-size: 16px; font-weight: 400; line-height: 24px; letter-spacing: 0; }
+  .text-body-sm { font-size: 14px; font-weight: 400; line-height: 20px; letter-spacing: -0.28px; }
+  
+  .text-caption-mono { font-family: var(--font-mono); font-size: 12px; font-weight: 400; line-height: 16px; letter-spacing: 0; }
+  .text-code { font-family: var(--font-mono); font-size: 13px; font-weight: 400; line-height: 20px; letter-spacing: 0; }
+
+  /* Buttons */
+  .button-primary {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    font-size: 16px;
+    font-weight: 500;
+    height: 48px;
+    padding: 0 24px;
+    border-radius: var(--radius-pill);
+    transition: opacity 0.2s;
+  }
+  .button-primary:hover { opacity: 0.9; }
+
+  .button-secondary {
+    background-color: var(--canvas);
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+    font-size: 16px;
+    font-weight: 500;
+    height: 48px;
+    padding: 0 24px;
+    border-radius: var(--radius-pill);
+    transition: background-color 0.2s;
+  }
+  .button-secondary:hover { background-color: var(--canvas-soft-2); }
+
+  /* Nav CTAs */
+  .nav-cta-signup {
+    background-color: var(--primary);
+    color: var(--on-primary);
+    font-size: 14px;
+    font-weight: 500;
+    height: 28px;
+    padding: 0 12px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Cards */
+  .card-marketing {
+    background-color: var(--canvas);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
+    box-shadow: 0px 1px 1px rgba(0,0,0,0.05), 0px 2px 2px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Decorative Accents */
+  .mesh-gradient-hero {
+    background: radial-gradient(at 0% 0%, var(--violet) 0px, transparent 50%),
+                radial-gradient(at 50% 0%, var(--highlight-pink) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, var(--cyan) 0px, transparent 50%);
+    filter: blur(100px);
+    opacity: 0.12;
+  }
+
+  .gradient-accent {
+    background: linear-gradient(90deg, var(--violet), var(--highlight-pink), var(--cyan), var(--link-blue));
+    height: 2px;
+    width: 100%;
+  }
+
+  /* Forms */
+  .form-input {
+    background-color: var(--canvas);
+    color: var(--ink);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-sm);
+    height: 40px;
+    padding: 0 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-input:focus { border-color: var(--ink); }
 }

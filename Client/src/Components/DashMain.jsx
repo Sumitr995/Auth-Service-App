@@ -1,109 +1,158 @@
 import React from 'react'
-import { Shield, KeyRound, Mail, Activity, Lock, Bell } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Key, Smartphone, Monitor, Globe } from 'lucide-react';
 
 const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
   let firstName = UserInfo?.name.split(" ")[0];
+  
   return (
-    <main className="relative z-1 max-w-6xl mx-auto px-8 py-16">
-      {/* Welcome section */}
-      <div className="mb-12">
-        <h1 className="text-5xl font-bold mb-3">
-          <span className="bg-linear-to-r from-white to-gray-400 bg-clip-text text-transparent">Welcome back, {firstName}</span>
-        </h1>
-        <p className="text-gray-400 text-lg">Your account is secure and ready to use</p>
-      </div>
-
-      {/* Account status card */}
-      <div className="mb-8 p-6 rounded-xl bg-linear-to-br from-blue-900/30 to-purple-900/30 border border-blue-800/50 backdrop-blur-sm">
-        <div className="flex items-start justify-between">
-          <div>
-            <h3 className="text-lg font-semibold mb-2 flex items-center space-x-2">
-              <Shield className="w-5 h-5 text-green-400" />
-              <span>Account Status: Active</span>
-            </h3>
-            <p className="text-gray-400 text-sm">Last login: Today at 2:34 PM</p>
-          </div>
-          <div
-            className={
-              UserInfo?.isAccountVerfied
-                ? "px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-semibold"
-                : "px-3 py-1 rounded-full bg-red-500/20 border border-red-500/30 text-red-400 text-xs font-semibold"
-            }
-          >
-            {UserInfo?.isAccountVerfied ? "Verified" : "Not Verified"}
-          </div>
+    <main className="mx-auto max-w-[1024px] px-4 md:px-8 py-10 md:py-16">
+      
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <h1 className="text-display-lg text-[var(--ink)] mb-2">
+            Authentication settings
+          </h1>
+          <p className="text-body-md text-[var(--body)] max-w-[500px]">
+            Manage your identity, security preferences, and active sessions.
+          </p>
         </div>
       </div>
 
-      {/* Quick actions */}
-      <div className="grid md:grid-cols-3 gap-6 mb-12">
-        <button
-          onClick={handleVerify}
-          className="p-6 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-green-500/50 transition-all backdrop-blur-sm text-left group"
-        >
-          <Mail className="w-10 h-10 text-green-500 mb-4 group-hover:scale-110 transition-transform" />
-          <h3 className="text-lg font-semibold mb-2">Verify Account</h3>
-          <p className="text-gray-400 text-sm">Confirm your email address for enhanced security</p>
-        </button>
-
-        <button
-          onClick={handleReset}
-          className="p-6 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-yellow-500/50 transition-all backdrop-blur-sm text-left group"
-        >
-          <KeyRound className="w-10 h-10 text-yellow-500 mb-4 group-hover:scale-110 transition-transform" />
-          <h3 className="text-lg font-semibold mb-2">Reset Password</h3>
-          <p className="text-gray-400 text-sm">Update your password to keep your account secure</p>
-        </button>
-
-        <button className="p-6 rounded-xl bg-gray-900/50 border border-gray-800 hover:border-blue-500/50 transition-all backdrop-blur-sm text-left group">
-          <Bell className="w-10 h-10 text-blue-500 mb-4 group-hover:scale-110 transition-transform" />
-          <h3 className="text-lg font-semibold mb-2">Notifications</h3>
-          <p className="text-gray-400 text-sm">Manage your security alerts and preferences</p>
-        </button>
-      </div>
-
-      {/* Security overview */}
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-xl bg-gray-900/50 border border-gray-800 backdrop-blur-sm">
-          <div className="flex items-center space-x-3 mb-4">
-            <Activity className="w-6 h-6 text-blue-400" />
-            <h3 className="text-xl font-semibold">Recent Activity</h3>
+      {/* Main Settings Grid */}
+      <div className="flex flex-col gap-8">
+        
+        {/* Profile Card */}
+        <section className="card-marketing overflow-hidden">
+          <div className="px-6 py-5 border-b border-[var(--hairline)] flex justify-between items-center bg-[var(--canvas-soft-2)]">
+             <h3 className="text-body-sm-strong text-[var(--ink)]">Profile</h3>
           </div>
-          <div className="space-y-3">
-            <div className="flex justify-between items-center py-2 border-b border-gray-800">
-              <span className="text-sm text-gray-400">Login from Chrome</span>
-              <span className="text-xs text-gray-500">2 hours ago</span>
-            </div>
-            <div className="flex justify-between items-center py-2 border-b border-gray-800">
-              <span className="text-sm text-gray-400">Password changed</span>
-              <span className="text-xs text-gray-500">3 days ago</span>
-            </div>
-            <div className="flex justify-between items-center py-2">
-              <span className="text-sm text-gray-400">Email verified</span>
-              <span className="text-xs text-gray-500">1 week ago</span>
-            </div>
+          <div className="p-6">
+             <div className="flex items-center gap-6">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-display-sm text-white font-bold">
+                   {UserInfo?.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                   <p className="text-body-md-strong text-[var(--ink)] mb-1">{UserInfo?.name}</p>
+                   <p className="text-body-sm text-[var(--body)] mb-3">{UserInfo?.email}</p>
+                   <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-caption border ${
+                     UserInfo?.isAccountVerfied 
+                     ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800' 
+                     : 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800'
+                   }`}>
+                      {UserInfo?.isAccountVerfied ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
+                      {UserInfo?.isAccountVerfied ? 'Email Verified' : 'Unverified Email'}
+                   </div>
+                </div>
+             </div>
+             
+             {!UserInfo?.isAccountVerfied && (
+                <div className="mt-6 p-4 rounded-sm bg-[var(--canvas-soft-2)] border border-[var(--hairline)] flex items-center justify-between">
+                   <div>
+                      <p className="text-body-sm-strong text-[var(--ink)]">Verify your email address</p>
+                      <p className="text-body-sm text-[var(--body)] mt-0.5">Required to unlock full account features.</p>
+                   </div>
+                   <button 
+                      onClick={handleVerify}
+                      className="nav-cta-signup h-9 px-4"
+                   >
+                      Send Verification Email
+                   </button>
+                </div>
+             )}
           </div>
-        </div>
+        </section>
 
-        <div className="p-6 rounded-xl bg-gray-900/50 border border-gray-800 backdrop-blur-sm">
-          <div className="flex items-center space-x-3 mb-4">
-            <Lock className="w-6 h-6 text-purple-400" />
-            <h3 className="text-xl font-semibold">Security Score</h3>
+        {/* Security Card */}
+        <section className="card-marketing overflow-hidden">
+          <div className="px-6 py-5 border-b border-[var(--hairline)] bg-[var(--canvas-soft-2)]">
+             <h3 className="text-body-sm-strong text-[var(--ink)]">Security</h3>
           </div>
-          <div className="mb-4">
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-3xl font-bold text-green-400">85/100</span>
-              <span className="text-sm text-gray-400">Strong</span>
-            </div>
-            <div className="w-full h-3 bg-gray-800 rounded-full overflow-hidden">
-              <div className="h-full w-[85%] bg-linear-to-r from-green-500 to-emerald-400 rounded-full"></div>
-            </div>
+          <div className="divide-y divide-[var(--hairline)]">
+             <div className="px-6 py-5 flex items-center justify-between hover:bg-[var(--canvas-soft-2)] transition-colors">
+                <div className="flex gap-4">
+                   <Key className="w-5 h-5 text-[var(--mute)] mt-0.5" />
+                   <div>
+                      <p className="text-body-sm-strong text-[var(--ink)]">Password</p>
+                      <p className="text-body-sm text-[var(--body)] mt-0.5">Last changed 3 months ago</p>
+                   </div>
+                </div>
+                <button 
+                   onClick={handleReset}
+                   className="form-input h-8 px-4 font-medium"
+                >
+                   Update
+                </button>
+             </div>
+             
+             <div className="px-6 py-5 flex items-center justify-between hover:bg-[var(--canvas-soft-2)] transition-colors">
+                <div className="flex gap-4">
+                   <ShieldAlert className="w-5 h-5 text-[var(--mute)] mt-0.5" />
+                   <div>
+                      <p className="text-body-sm-strong text-[var(--ink)]">Two-Factor Authentication</p>
+                      <p className="text-body-sm text-[var(--body)] mt-0.5">Add an extra layer of security to your account.</p>
+                   </div>
+                </div>
+                <button className="form-input h-8 px-4 font-medium">
+                   Enable 2FA
+                </button>
+             </div>
           </div>
-          <p className="text-sm text-gray-400">Your account security is strong. Enable 2FA for a perfect score.</p>
-        </div>
+        </section>
+
+        {/* Active Sessions Card */}
+        <section className="card-marketing overflow-hidden">
+          <div className="px-6 py-5 border-b border-[var(--hairline)] bg-[var(--canvas-soft-2)] flex justify-between items-center">
+             <h3 className="text-body-sm-strong text-[var(--ink)]">Active Sessions</h3>
+             <button className="text-body-sm text-[var(--body)] hover:text-[var(--ink)] transition-colors">
+                Log out all devices
+             </button>
+          </div>
+          <div className="divide-y divide-[var(--hairline)]">
+             <div className="px-6 py-5 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                   <div className="w-10 h-10 rounded-full bg-[var(--canvas-soft-2)] flex items-center justify-center border border-[var(--hairline)]">
+                      <Monitor className="w-5 h-5 text-[var(--ink)]" />
+                   </div>
+                   <div>
+                      <p className="text-body-sm-strong text-[var(--ink)] flex items-center gap-2">
+                         Windows · Chrome
+                         <span className="px-1.5 py-0.5 rounded-xs bg-[var(--ink)] text-[var(--canvas)] text-[10px] font-bold uppercase tracking-wider">Current</span>
+                      </p>
+                      <p className="text-body-sm text-[var(--body)] mt-0.5 flex items-center gap-1">
+                         <Globe className="w-3.5 h-3.5" /> Mumbai, India · Active now
+                      </p>
+                   </div>
+                </div>
+             </div>
+             
+             <div className="px-6 py-5 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                   <div className="w-10 h-10 rounded-full bg-[var(--canvas-soft-2)] flex items-center justify-center border border-[var(--hairline)]">
+                      <Smartphone className="w-5 h-5 text-[var(--mute)]" />
+                   </div>
+                   <div>
+                      <p className="text-body-sm-strong text-[var(--ink)]">
+                         iPhone · Safari
+                      </p>
+                      <p className="text-body-sm text-[var(--body)] mt-0.5 flex items-center gap-1">
+                         <Globe className="w-3.5 h-3.5" /> Delhi, India · Last active 3 days ago
+                      </p>
+                   </div>
+                </div>
+                <button className="text-body-sm font-medium text-red-500 hover:text-red-600 transition-colors">
+                   Revoke
+                </button>
+             </div>
+          </div>
+        </section>
+
       </div>
     </main>
   )
 }
+
+// Fixed missing ShieldAlert import manually since I used it
+import { ShieldAlert } from 'lucide-react';
 
 export default DashMain;

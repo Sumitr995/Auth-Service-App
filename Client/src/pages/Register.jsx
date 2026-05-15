@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { assets } from "../assets/assets";
 import { useForm } from "react-hook-form"
 import { ToastContainer, toast } from "react-toastify";
@@ -7,10 +7,8 @@ import axios from 'axios';
 import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
-
 const Register = ({ Sign, setSign }) => {
-    const { setUser, setToken } = useContext(AuthContext);
-
+    const { setUser } = useContext(AuthContext);
     const Backend_URL = import.meta.env.VITE_BACKEND_URL;
     const navigate = useNavigate();
 
@@ -24,126 +22,136 @@ const Register = ({ Sign, setSign }) => {
     const onSubmit = async (data) => {
         let res;
         try {
-
             if (Sign === 'Sign Up') {
-                res = await axios.post(
-                    `${Backend_URL}/auth/register`,
-                    data,
-                    { withCredentials: true }
-                );
+                res = await axios.post(`${Backend_URL}/auth/register`, data, { withCredentials: true });
             } else {
-                res = await axios.post(
-                    `${Backend_URL}/auth/login`,
-                    data,
-                    { withCredentials: true }
-                );
+                res = await axios.post(`${Backend_URL}/auth/login`, data, { withCredentials: true });
             }
-
-            setUser(true);
 
             if (res.data.success) {
-                toast.success(res.data.message, {
-                    position: "top-right",
-                    autoClose: 2000,
-                });
+                setUser(true);
+                toast.success(res.data.message, { position: "top-right", autoClose: 2000 });
+                reset();
+                setTimeout(() => navigate('/dashboard'), 1500);
             } else {
-                toast.error(res.data.message, {
-                    position: "top-right",
-                    autoClose: 2000,
-                });
+                toast.error(res.data.message, { position: "top-right", autoClose: 2000 });
             }
-
-            reset();
-            
-            setTimeout(()=>{
-              navigate('/dashboard')  
-            },1500);
-            
-
         } catch (err) {
             toast.error(err.response?.data?.message || "Something went wrong");
         }
     };
 
-
-
-
     return (
-        <div className=' h-screen flex items-center justify-center bg-[url("/Dark_BG.jpg")] relative bg-center bg-cover bg-no-repeat pointer-events-none '>
+        <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[var(--canvas-soft)] selection:bg-[var(--link-blue)] selection:text-white">
 
-            <img className=' absolute top-5 left-5 sm:left-5  w-28 sm:w-32 cursor-pointer' src={assets.logo} alt="" />
+            {/* Logo */}
+            <div className="absolute top-10 left-10 md:left-12">
+                <img
+                    src={assets.logo}
+                    alt="Logo"
+                    className="h-8 w-auto cursor-pointer dark:invert"
+                    onClick={() => navigate('/')}
+                />
+            </div>
 
-            {/* FIXED z-index HERE */}
-            <div className=' bg-gray-900 w-[360px] h-[60vh] rounded-2xl flex flex-col items-center justify-center z-999 pointer-events-auto '>
-                <h3 className='px-2 text-2xl font-bold text-white'>
-                    {Sign === 'Sign Up' ? 'Create Account' : 'Login Account'}
-                </h3>
+            {/* Auth Card */}
+            <div className="card-marketing w-full max-w-[400px] z-10 mx-4">
+                {/* Subtle Gradient Accent */}
+                <div className="gradient-accent absolute top-0 left-0" />
 
-                <p className='text-purple-500 text-md font-medium p-2'>
-                    {Sign === 'Sign Up' ? 'Create your account' : 'Login your account'}
-                </p>
+                <div className="p-8 md:p-10">
+                    <div className="mb-8">
+                        <h1 className="text-display-lg text-[var(--ink)] mb-2">
+                            {Sign === 'Sign Up' ? 'Create your account.' : 'Welcome back.'}
+                        </h1>
+                        <p className="text-body-md text-[var(--body)]">
+                            {Sign === 'Sign Up'
+                                ? 'Start building your next SaaS today.'
+                                : 'Sign in to manage your deployment.'}
+                        </p>
+                    </div>
 
-                <div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
 
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                         {Sign === 'Sign Up' && (
-                            <div className='flex items-center justify-center h-10 border rounded-2xl border-white my-2.5 w-[280px]'>
-                                <img className='px-2' src={assets.person_icon} alt="" />
+                            <div className="space-y-1.5">
+                                <label className="text-caption-mono text-[var(--mute)] uppercase tracking-wider">
+                                    Full Name
+                                </label>
                                 <input
-                                    className='text-white px-2 outline-none border-none bg-transparent'
                                     type="text"
-                                    placeholder='Your Name'
-                                    {...register("name")}
+                                    placeholder="Guillermo Rauch"
+                                    className="form-input w-full"
+                                    {...register("name", { required: Sign === 'Sign Up' })}
                                 />
+                                {errors.name && <span className="text-red-500 text-xs">Name is required</span>}
                             </div>
                         )}
 
-                        <div className='flex items-center justify-center h-10 border rounded-2xl border-white my-2.5 w-[280px]'>
-                            <img className='px-2' src={assets.mail_icon} alt="" />
+                        <div className="space-y-1.5">
+                            <label className="text-caption-mono text-[var(--mute)] uppercase tracking-wider">
+                                Email Address
+                            </label>
                             <input
-                                className='text-white px-2 outline-none border-none bg-transparent'
                                 type="email"
-                                placeholder='Your Email'
-                                {...register("email")}
+                                placeholder="name@company.com"
+                                className="form-input w-full"
+                                {...register("email", { required: true })}
                             />
+                            {errors.email && <span className="text-red-500 text-xs">Valid email is required</span>}
                         </div>
 
-                        <div className='flex items-center justify-center h-10 border rounded-2xl border-white my-2.5 w-[280px]'>
-                            <img className='px-2' src={assets.lock_icon} alt="" />
+                        <div className="space-y-1.5">
+                            <div className="flex justify-between items-center">
+                                <label className="text-caption-mono text-[var(--mute)] uppercase tracking-wider">
+                                    Password
+                                </label>
+                                {Sign === 'Login' && (
+                                    <button type="button" className="text-caption text-[var(--mute)] hover:text-[var(--ink)] transition-colors">
+                                        Forgot password?
+                                    </button>
+                                )}
+                            </div>
                             <input
-                                className='text-white px-2 outline-none border-none bg-transparent'
                                 type="password"
-                                placeholder='Your Password'
-                                {...register("password")}
+                                placeholder="••••••••"
+                                className="form-input w-full"
+                                {...register("password", { required: true, minLength: 6 })}
                             />
                         </div>
 
-                        <div 
-                        className='text-purple-500 hover:text-purple-800 cursor-pointer w-32 text-center hover:underline'>
-                            forgot password?
-                        </div>
-
-                        <button className='h-10 m-2.5 w-[280px] bg-linear-to-tr to-blue-700 from-purple-700 rounded-2xl text-white text-extrabold cursor-pointer'>
-                            {Sign === 'Sign Up' ? 'Sign Up' : 'Login'}
+                        <button
+                            type="submit"
+                            className="button-primary w-full mt-2"
+                        >
+                            {Sign === 'Sign Up' ? 'Sign Up' : 'Continue'}
                         </button>
-
-                        <div className=' w-[280px] text-center text-white text-sm'>
-                            {Sign === 'Sign Up' ? 'Already have an account?' : `Don't have an account?`}
-                            {' '}
-                            <span
-                                onClick={() => setSign(Sign === 'Sign Up' ? 'Login' : 'Sign Up')}
-                                className='text-purple-500 hover:text-purple-800 cursor-pointer hover:underline pointer-events-auto'
-                            >
-                                {Sign === 'Sign Up' ? 'Login Here' : 'Sign Up'}
-                            </span>
-                        </div>
-
                     </form>
+
+                    <div className="mt-8 pt-6 border-t border-[var(--hairline)] text-center">
+                        <p className="text-body-sm text-[var(--body)]">
+                            {Sign === 'Sign Up' ? 'Already have an account?' : "Don't have an account?"}
+                            {' '}
+                            <button
+                                onClick={() => {
+                                    setSign(Sign === 'Sign Up' ? 'Login' : 'Sign Up');
+                                    reset();
+                                }}
+                                className="text-[var(--ink)] font-medium hover:underline underline-offset-4"
+                            >
+                                {Sign === 'Sign Up' ? 'Log in' : 'Sign up'}
+                            </button>
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <ToastContainer />
+            {/* Footer semantic */}
+            <div className="mt-12 text-caption-mono text-[var(--mute)] uppercase tracking-tighter">
+                &copy; {new Date().getFullYear()} — Auth Service App
+            </div>
 
+            <ToastContainer />
         </div>
     );
 };

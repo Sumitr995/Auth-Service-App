@@ -1,41 +1,62 @@
 import React from 'react'
 import { assets } from '../assets/assets'
-import { BrowserRouter } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
 const Header = ({ setSign }) => {
     const navigate = useNavigate()
 
     return (
-        <>
+        <header className="relative flex flex-col items-center justify-center pt-24 pb-32 px-6 overflow-hidden">
+            {/* Mesh Gradient Background */}
+            <div className="mesh-gradient-hero absolute top-[-20%] left-0 w-full h-[120%] -z-10 pointer-events-none" />
 
-
-            <div className='flex items-center justify-center flex-col h-[70vh] font-semibold text-white '>
-                <img className='h-38 w-38 ' src={assets.new_header} alt="header_img" />
-                <div className='flex gap-1 items-center text-2xl font-semibold '>
-                    <h1>Hey Developer</h1>
-                    <img className='h-8' src={assets.hand_wave} alt="wave" />
+            <div className="mx-auto max-w-[1200px] text-center z-10">
+                {/* Technical Eyebrow Badge */}
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--canvas)] border border-[var(--hairline)] shadow-sm mb-10 group cursor-pointer hover:border-[var(--mute)] transition-colors">
+                    <span className="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse" />
+                    <span className="text-caption-mono text-[var(--body)] uppercase tracking-[0.1em]">
+                        Now in Public Beta: Enterprise Auth v2.0
+                    </span>
+                    <svg className="w-3 h-3 text-[var(--mute)] group-hover:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                 </div>
 
-                <h1 className='text-3xl font-semibold'>Welcome to my Auth app</h1>
-                <p className='text-center' >
-                    lets start with quick product tour and start our journey together !
+                {/* Main Headline */}
+                <h1 className="text-display-xl lg:text-[84px] text-[var(--ink)] mb-8 max-w-[1000px] mx-auto">
+                    Authentication for the modern SaaS.
+                </h1>
+
+                {/* Subtitle */}
+                <p className="text-body-lg text-[var(--body)] max-w-[650px] mx-auto mb-12">
+                    Embed beautiful, secure, and extensible user authentication into your application in minutes. The complete identity layer for your next big thing.
                 </p>
-                <button
-                    className='flex items-center gap-2 border border-gray-500 px-6 py-2 cursor-pointer rounded-full my-5 hover:text-gray-500 transition-all'
-                    onClick={() => {
-                        navigate('/register');
-                        setSign('Sign Up');
-                    }}
-                >
-                    Get Started
-                    <img src={assets.arrow_icon} alt="arrow" />
-                </button>
+
+                {/* Primary CTA Row */}
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button
+                        className="button-primary px-10 shadow-lg shadow-black/5"
+                        onClick={() => {
+                            navigate('/register');
+                            setSign('Sign Up');
+                        }}
+                    >
+                        Start for Free
+                    </button>
+                    <button
+                        className="button-secondary px-10"
+                        onClick={() => {
+                           // Navigate to docs
+                        }}
+                    >
+                        Read Documentation
+                    </button>
+                </div>
             </div>
 
-
-        </>
-
+            {/* Bottom Gradient Fade */}
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--canvas-soft)] to-transparent" />
+        </header>
     )
 }
 
