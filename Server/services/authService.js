@@ -7,7 +7,7 @@ import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
 import { sendEmail } from "../utils/email.js";
 
 // Function to register a user
-export const registerUser = async ({ name, email, password, appId }) => {
+export const registerUser = async ({ name, email, password }) => {
 
   // 1. Validation
   if (!name || !email || !password) {
@@ -15,55 +15,37 @@ export const registerUser = async ({ name, email, password, appId }) => {
   }
 
   // 2. Check existing user
-  const existingUser = await User.findOne({ email, appId });
+  const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw { status: 409, message: "User already exists" };
   }
 
   // 3. Hash password
-  const passwordHash = await bcrypt.hash(password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
 
   // 4. Create user
   const user = await User.create({
     name,
     email,
-    passwordHash,
-    appId,
+    password: hashedPassword,
   });
 
-  // 5. Generate OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-  await OTP.create({
-    email,
-    appId,
-    otp,
-    type: "verify",
-    expiresAt: Date.now() + 5 * 60 * 1000,
-  });
-
-  // 6. Send email (non-blocking)
-  sendEmail({
-    to: email,
-    subject: "Verify your account",
-    text: `Your OTP is ${otp}`,
-  });
-
-  // 7. Generate tokens
+  // 5. Generate tokens
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
-  // 8. Store refresh token
+  // 6. Store refresh token
   await RefreshToken.create({
     userId: user._id,
     token: refreshToken,
-    expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
   });
 
-  // 9. Return response
+  // 7. Return response
   return {
     user: {
       id: user._id,
+      name: user.name,
       email: user.email,
     },
     accessToken,

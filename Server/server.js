@@ -2,10 +2,15 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
+import path from "path";
+import { fileURLToPath } from "url";
 import ConnectDB from "./config/DB.js";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import appRoutes from "./routes/appRoutes.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const Port = process.env.PORT || 3000;
@@ -24,13 +29,17 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send("APP is running 🚀");
-});
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/app", appRoutes);
+
+// Fallback to index.html for any other routes (SPA support)
+app.get("/{*splat}", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
 const startServer = async () => {
   try {

@@ -24,8 +24,9 @@ const otpSchema = new mongoose.Schema({
   },
 
   expiresAt: {
-    type: Number,
+    type: Date,
     required: true,
+    expires: 0, // TTL index: document will be deleted at expiresAt
   },
 });
 

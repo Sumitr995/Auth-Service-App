@@ -15,7 +15,7 @@ try {
         userData:{
             name: user.name,
             email: user.email,
-            isAccountVerfied: user.isAccountVerfied
+            isAccountVerified: user.isAccountVerified
         }
     })
 

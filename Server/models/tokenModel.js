@@ -13,8 +13,9 @@ const tokenSchema = new mongoose.Schema({
   },
 
   expiresAt: {
-    type: Number,
+    type: Date,
     required: true,
+    expires: 0,
   },
 });
 

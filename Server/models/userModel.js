@@ -7,31 +7,42 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-
     email: {
       type: String,
       required: true,
       lowercase: true,
       trim: true,
     },
-
-    passwordHash: {
+    password: {
       type: String,
       required: true,
     },
-
     appId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "App",
-      required: true,
+      ref: "app",
+      required: false, // Made optional for normal registration
       index: true,
     },
-
-    isVerified: {
+    isAccountVerified: {
       type: Boolean,
       default: false,
     },
-
+    verifyOtp: {
+      type: String,
+      default: "",
+    },
+    verifyOtpExpireAt: {
+      type: Number,
+      default: 0,
+    },
+    resetOtp: {
+      type: String,
+      default: "",
+    },
+    resetOtpExpireAt: {
+      type: Number,
+      default: 0,
+    },
     role: {
       type: String,
       enum: ["user", "admin"],
@@ -39,12 +50,12 @@ const userSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // 🔥 adds createdAt & updatedAt
+    timestamps: true,
   }
 );
 
-// 🔥 COMPOUND UNIQUE INDEX (VERY IMPORTANT)
-userSchema.index({ email: 1, appId: 1 }, { unique: true });
+// Unique index on email (removed appId from uniqueness for normal registration)
+userSchema.index({ email: 1 }, { unique: true });
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 
