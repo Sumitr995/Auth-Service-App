@@ -23,7 +23,7 @@ const Header = ({ setSign }) => {
                 </div>
 
                 {/* Main Headline */}
-                <h1 className="text-display-xl lg:text-[84px] text-[var(--ink)] mb-8 max-w-[1000px] mx-auto">
+                <h1 className="text-display-xl text-[var(--ink)] mb-8 max-w-[1000px] mx-auto">
                     Authentication for the modern SaaS.
                 </h1>
 

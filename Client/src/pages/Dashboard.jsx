@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { User, LogOut, Shield, KeyRound, Mail, Activity, Lock, Bell } from 'lucide-react';
-import DashNavbar from '../Components/dashNavbar';
-import DashMain from '../Components/DashMain';
+import DashNavbar from '../components/DashNavbar';
+import DashMain from '../components/DashMain';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -175,42 +175,42 @@ export default function AuthLandingPage({ setSign }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--canvas-soft)] text-[var(--ink)] relative overflow-hidden">
       {/* Navigation */}
       <DashNavbar showMenu={showMenu} UserInfo={UserInfo} setShowMenu={setShowMenu} handleVerify={handleVerify} handleReset={handleReset} handleLogout={handleLogout} />
+      
       {/* Main content */}
       <DashMain UserInfo={UserInfo} showModal={showModal} setShowModal={setShowModal} handleVerify={handleVerify} handleReset={handleReset} handleLogout={handleLogout} closeModal={closeModal} />
-
 
       {/* Modals */}
       {showModal === 'verify' && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm"
           onClick={closeModal}
         >
           <div
-            className="bg-gray-900 border border-gray-800 rounded-xl p-8 max-w-md w-full mx-4"
+            className="bg-[var(--canvas)] border border-[var(--hairline)] rounded-xl p-8 max-w-md w-full mx-4 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center space-x-3 mb-4">
-              <Mail className="w-6 h-6 text-green-400" />
-              <h2 className="text-2xl font-bold">Verify Account</h2>
+            <div className="flex items-center space-x-3 mb-6">
+              <Mail className="w-6 h-6 text-[var(--link-blue)]" />
+              <h2 className="text-display-sm text-[var(--ink)]">Verify account</h2>
             </div>
 
             {/* IF USER IS ALREADY VERIFIED */}
             {UserInfo?.isAccountVerfied && (
               <div className="flex flex-col items-center text-center mb-6">
-                <div className="px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-md font-semibold">
+                <div className="px-3 py-1 rounded-full bg-green-50 text-green-600 border border-green-200 text-caption font-medium">
                   Email Verified
                 </div>
 
-                <p className="text-gray-400 mt-3 text-xl">
-                  Your email <span className="text-white">{UserInfo?.email}</span> is verified.
+                <p className="text-body-md text-[var(--body)] mt-4">
+                  Your email <span className="text-[var(--ink)] font-medium">{UserInfo?.email}</span> is verified.
                 </p>
 
                 <button
                   onClick={closeModal}
-                  className="mt-4 px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                  className="button-primary mt-6 w-full"
                 >
                   Close
                 </button>
@@ -221,13 +221,13 @@ export default function AuthLandingPage({ setSign }) {
                 {/* BEFORE OTP SENT */}
                 {!sentOtp && (
                   <>
-                    <p className="text-gray-400 mb-6 font-semibold">
-                      We will send a 6-digit OTP to <span className="text-white">{UserInfo?.email}</span>
+                    <p className="text-body-md text-[var(--body)] mb-8">
+                      We will send a 6-digit OTP to <span className="text-[var(--ink)] font-medium">{UserInfo?.email}</span>.
                     </p>
 
                     <button
                       onClick={sendOTP}
-                      className="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                      className="button-primary w-full"
                     >
                       Send OTP
                     </button>
@@ -238,12 +238,12 @@ export default function AuthLandingPage({ setSign }) {
                 {/* AFTER OTP SENT */}
                 {sentOtp && (
                   <>
-                    <p className="text-gray-400 mb-3">
-                      Enter the 6-digit OTP sent to <span className="text-white">{UserInfo?.email}</span>
+                    <p className="text-body-sm text-[var(--body)] mb-4">
+                      Enter the 6-digit OTP sent to <span className="text-[var(--ink)] font-medium">{UserInfo?.email}</span>.
                     </p>
 
                     {/* OTP BOXES */}
-                    <div className="flex gap-3 justify-center mb-6">
+                    <div className="flex gap-2 justify-center mb-8">
                       {Array.from({ length: 6 }).map((_, idx) => (
                         <input
                           key={idx}
@@ -261,7 +261,7 @@ export default function AuthLandingPage({ setSign }) {
                             }
                           }}
                           id={`otp-${idx}`}
-                          className="w-10 h-12 text-center text-xl bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-50 text-white"
+                          className="w-12 h-14 text-center text-display-sm bg-[var(--canvas-soft-2)] border border-[var(--hairline)] rounded-md focus:outline-none focus:border-[var(--ink)] text-[var(--ink)]"
                         />
                       ))}
                     </div>
@@ -269,15 +269,14 @@ export default function AuthLandingPage({ setSign }) {
                     <button
                       onClick={() => {
                         if (otp.length === 6) {
-                          console.log("Verify OTP:", otp);
                           verifyEmail()
                         } else {
                           toast.error("Please enter all 6 digits");
                         }
                       }}
-                      className="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                      className="button-primary w-full"
                     >
-                      Verify Email
+                      Verify email
                     </button>
                   </>
                 )}
@@ -288,33 +287,33 @@ export default function AuthLandingPage({ setSign }) {
       )}
 
       {showModal === 'reset' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm" onClick={closeModal}>
-          <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
-            <div className="flex items-center space-x-3 mb-4">
-              <KeyRound className="w-6 h-6 text-yellow-400" />
-              <h2 className="text-2xl font-bold">Reset Password</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm" onClick={closeModal}>
+          <div className="bg-[var(--canvas)] border border-[var(--hairline)] rounded-xl p-8 max-w-md w-full mx-4 shadow-xl" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center space-x-3 mb-6">
+              <KeyRound className="w-6 h-6 text-amber-500" />
+              <h2 className="text-display-sm text-[var(--ink)]">Reset password</h2>
             </div>
             {(ResetState === "resetOTP") ?
-              (<><p className="text-gray-400 mb-4 text-sm">Enter your email to receive a password reset link</p>
+              (<>
+                <p className="text-body-sm text-[var(--body)] mb-6">Enter your email to receive a password reset OTP.</p>
                 <input
                   onChange={(e) => setResetPassword(e.target.value)}
                   type="email"
-                  placeholder="Sumitr995@example.com"
-                  // defaultValue="itzsumitr995@example.com"
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg mb-4 focus:outline-none focus:border-blue-500 transition-colors"
+                  placeholder="name@example.com"
+                  className="form-input w-full mb-6"
                 />
                 <button onClick={resetPwd}
-                  className="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-semibold cursor-pointer ">
-                  Send Reset Link
+                  className="button-primary w-full">
+                  Send reset OTP
                 </button>
               </>) :
               (<>
-                <p className="text-gray-400 mb-3">
-                  Enter the 6-digit OTP sent to <span className="text-white">{UserInfo?.email}</span>
+                <p className="text-body-sm text-[var(--body)] mb-4">
+                  Enter the 6-digit OTP sent to <span className="text-[var(--ink)] font-medium">{ResetPassword}</span>.
                 </p>
 
                 {/* OTP BOXES */}
-                <div className="flex gap-3 justify-center mb-6">
+                <div className="flex gap-2 justify-center mb-8">
                   {Array.from({ length: 6 }).map((_, idx) => (
                     <input
                       key={idx}
@@ -332,17 +331,17 @@ export default function AuthLandingPage({ setSign }) {
                         }
                       }}
                       id={`otp-${idx}`}
-                      className="w-10 h-12 text-center text-xl bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-50 text-white"
+                      className="w-12 h-14 text-center text-display-sm bg-[var(--canvas-soft-2)] border border-[var(--hairline)] rounded-md focus:outline-none focus:border-[var(--ink)] text-[var(--ink)]"
                     />
-
                   ))}
                 </div>
                 {/* NEW PASSWORD INPUT */}
-                <div className="mb-6">
+                <div className="mb-8">
+                  <label className="text-caption-mono text-[var(--mute)] uppercase mb-2 block">New password</label>
                   <input
                     type="password"
-                    placeholder="Enter new password"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-blue-400"
+                    placeholder="••••••••"
+                    className="form-input w-full"
                     value={NewPassword}
                     onChange={(e) =>{setNewPassword(e.target.value);}}
                   />
@@ -350,16 +349,14 @@ export default function AuthLandingPage({ setSign }) {
                 <button
                   onClick={() => {
                     if (otp.length === 6) {
-                      console.log("Verify OTP:", otp);
-                      console.log(NewPassword);
                       ResetPwdOtp()
                     } else {
                       toast.error("Please enter all 6 digits");
                     }
                   }}
-                  className="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                  className="button-primary w-full"
                 >
-                  Verify Email
+                  Update password
                 </button>
               </>
               )}
