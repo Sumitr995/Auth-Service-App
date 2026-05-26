@@ -1,36 +1,61 @@
-# 🗺️ Project Roadmap & Plan
+# 🗺️ Auth SaaS Platform – Roadmap & Execution Plan
 
-## 🎯 Current Status: **Phase 2 - Feature Expansion**
-We have successfully implemented the core authentication system and are now expanding into a service-oriented architecture where users can manage their own "Apps" via API keys.
+## 🎯 Vision
+Transforming a standard MERN authentication application into a production-ready **Authentication-as-a-Service (Auth SaaS) platform** (inspired by Clerk and Auth0). The platform allows developers to manage multiple projects, each with isolated user bases and API-driven authentication.
+
+---
+
+## 🔄 Platform Flow
+**Developer** → **Dashboard** → **Create Project** → **Generate API Keys** → **Client App** → **Auth Platform Backend** → **Authentication Response**
+
+---
+
+## 🏗️ Multi-Tenant Architecture
+The system is built on a **multi-tenant** model to support developers managing multiple applications:
+- **Project Isolation:** Each project has its own scope for users and sessions.
+- **API Key Authentication:** Developers interact with the platform using unique API keys per project.
+- **Contextual Middleware:** Backend automatically identifies and attaches project context based on API keys.
 
 ---
 
 ## 🚀 Execution Phases
 
-### **Phase 1: Core Authentication (Completed ✅)**
-- [x] User Registration & Login.
-- [x] JWT Authentication via HTTP-Only Cookies.
-- [x] OTP-based Email Verification.
-- [x] Password Reset logic (Email-based).
-- [x] Secure Password Hashing (bcrypt).
+### **Phase 1: Foundation (Completed ✅)**
+- [x] User Registration & Login (Platform Developers).
+- [x] JWT Authentication & HTTP-Only Cookies.
+- [x] Email Verification via OTP (Nodemailer).
+- [x] Password Reset logic.
 
-### **Phase 2: App Management & Developer Tools (In Progress 🚧)**
-- [x] Backend App Model & Service.
-- [x] API Key Generation Logic.
-- [ ] Frontend Dashboard for App Management.
-- [ ] API Key rotation/revocation.
-- [ ] Usage Analytics for Apps.
+### **Phase 2: Multi-Tenant API Platform (Current Focus 🚧)**
+- [x] **Dashboard:** Developer-facing management interface.
+- [x] **Project Management:** Create and manage multiple apps/projects.
+- [x] **API Key System:** Secure generation and validation of project API keys.
+- [x] **Multi-Tenant Schema:** Project-scoped Users and Sessions.
+- [x] **Project Middleware:** Middleware to verify API keys and inject project context.
+- [x] **Authentication APIs:** Public-facing Register/Login endpoints for client apps.
+- [x] **Documentation Website:** Guides and API reference for developers.
 
-### **Phase 3: Advanced Security & Integration (Planned 🔜)**
-- [ ] **OAuth 2.0:** Integration with Google and GitHub.
-- [ ] **2FA:** Two-Factor Authentication (TOTP/SMS).
-- [ ] **Role-Based Access Control (RBAC):** Fine-grained permissions.
-- [ ] **Public API:** Enabling third-party apps to authenticate users via our service.
+### **Phase 3: SDK & NPM Packages (Planned 🔜)**
+- [ ] Development of `@goat/auth-js` (core JavaScript SDK).
+- [ ] React Hooks for easy integration (`useAuth`, `useUser`).
+- [ ] Standardized error handling and types.
+
+### **Phase 4: React UI Component Library (Planned 🔜)**
+- [ ] Pre-built, customizable UI components (`<SignIn />`, `<SignUp />`, `<UserProfile />`).
+- [ ] Themeable design system.
+
+### **Phase 5: Advanced SaaS Features (Future 🚀)**
+- [ ] **OAuth Integration:** Google, GitHub, Apple login.
+- [ ] **RBAC:** Role-Based Access Control management.
+- [ ] **Webhooks:** Event notifications for user signups, logins, etc.
+- [ ] **Analytics:** Dashboard for project-specific authentication metrics.
+- [ ] **Organizations:** Support for B2B multi-tenancy.
 
 ---
 
-## 🛠️ Upcoming Tasks
-1. **Frontend Integration:** Build the `Dashboard` page to list and create "Apps".
-2. **Middleware Enhancement:** Create a middleware to validate `apiKey` for public endpoints.
-3. **UI/UX Polish:** Implement the "Vercel-inspired" design system fully across all pages.
-4. **Docs:** Maintain the `Context/` directory as the source of truth.
+## 🗝️ Core Entities
+1. **Developers:** Users of the Auth Platform who create projects.
+2. **Projects (Apps):** Individual applications created by developers.
+3. **Users:** End-users belonging to a specific project.
+4. **Sessions:** Active login states scoped to a user and project.
+5. **API Keys:** Unique credentials used to authorize API requests for a project.

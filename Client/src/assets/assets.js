@@ -6,6 +6,16 @@ import person_icon from './person_icon.svg'
 import hand_wave from './hand_wave.png'
 import header_img from './header_img.png'
 import new_header from './new_header.png'
+import favicon from './favicon.svg'
+import github from './github.svg'
+import linkedin from './linkedin.svg'
+import portfolio from './portfolio.svg'
+import email from './mail.svg'
+
+import github_svg from './github.svg?raw'
+import linkedin_svg from './linkedin.svg?raw'
+import portfolio_svg from './portfolio.svg?raw'
+import email_svg from './mail.svg?raw'
 // import Dark_BG from "./Dark_BG.jpg";
 
 
@@ -21,5 +31,16 @@ export const assets = {
     header_img,
     new_header,
     Register_img,
+    favicon,
+    github,
+    linkedin,
+    portfolio,
+    email,
+
+    // Raw SVG strings (for theme-aware inline rendering)
+    github_svg,
+    linkedin_svg,
+    portfolio_svg,
+    email_svg,
     // Dark_BG
 }

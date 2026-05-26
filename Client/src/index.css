@@ -113,6 +113,21 @@
   }
 }
 
+/* Inverted (always-dark) section utility */
+.section-invert {
+  --section-bg: var(--ink);
+  --section-fg: var(--canvas);
+  background-color: var(--section-bg);
+  color: var(--section-fg);
+}
+
+@media (prefers-color-scheme: dark) {
+  .section-invert {
+    --section-bg: var(--canvas);
+    --section-fg: var(--ink);
+  }
+}
+
 /* Base Styles */
 body {
   background-color: var(--canvas-soft);

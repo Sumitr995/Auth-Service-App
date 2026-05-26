@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { User, LogOut, Shield, KeyRound, Mail, Activity, Lock, Bell } from 'lucide-react';
-import DashNavbar from '../components/DashNavbar';
-import DashMain from '../components/DashMain';
+import DashNavbar from '../components/Dashboard/DashNavbar';
+import DashMain from '../components/Dashboard/DashMain';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
