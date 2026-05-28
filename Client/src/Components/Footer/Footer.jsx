@@ -37,7 +37,7 @@ const Footer = ({
               className="inline-flex items-center gap-2.5"
             >
               <img src={assets.favicon} alt="Logo" className="h-6 w-6" />
-              <span className="text-display-sm text-(--ink)">SUMIT</span>
+              <span className="text-display-sm text-(--ink)">AuthVault</span>
             </button>
 
             <p className="mt-4 max-w-[420px] text-body-sm text-(--body)">

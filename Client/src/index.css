@@ -232,6 +232,51 @@ body {
     transition: border-color 0.2s;
   }
   .form-input:focus { border-color: var(--ink); }
+
+  /* Micro-interactions (Vercel-like) */
+  .micro-lift {
+    will-change: transform;
+    transition: transform 200ms ease, border-color 200ms ease, background-color 200ms ease, opacity 200ms ease;
+  }
+
+  .micro-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  .micro-border:hover {
+    border-color: var(--hairline-strong);
+  }
+
+  .micro-row {
+    transition: background-color 200ms ease;
+  }
+
+  .micro-row:hover {
+    background-color: var(--canvas-soft);
+  }
+
+  .micro-icon {
+    will-change: transform;
+    transition: transform 200ms ease, opacity 200ms ease;
+  }
+
+  .micro-group:hover .micro-icon {
+    transform: translateY(-1px) scale(1.02);
+    opacity: 0.98;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .micro-lift,
+  .micro-row,
+  .micro-icon {
+    transition: none !important;
+  }
+
+  .micro-lift:hover,
+  .micro-group:hover .micro-icon {
+    transform: none !important;
+  }
 }
 
 @theme inline {

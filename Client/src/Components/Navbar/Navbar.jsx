@@ -2,7 +2,7 @@ import React from 'react'
 import { assets } from '../../assets/assets'
 import { useNavigate } from 'react-router-dom'
 
-const Navbar = ({ setSign }) => {
+const Navbar = ({ setSign, topOffset = 0 }) => {
   const navigate = useNavigate();
 
   const navItems = [
@@ -23,7 +23,10 @@ const Navbar = ({ setSign }) => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 w-full border-b border-[var(--hairline)] bg-[var(--canvas)]/80 backdrop-blur-md">
+    <nav
+      className="fixed left-0 right-0 z-50 w-full border-b border-(--hairline) bg-(--canvas)/80 backdrop-blur-md"
+      style={{ top: topOffset }}
+    >
       <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-6 md:px-10">
         
         {/* Logo Section */}
@@ -44,7 +47,7 @@ const Navbar = ({ setSign }) => {
               key={item.path || item.href}
               type="button"
               onClick={() => handleNavClick(item)}
-              className="px-3 py-1.5 cursor-pointer text-body-sm text-[var(--body)] hover:text-[var(--ink)] hover:bg-[var(--canvas-soft-2)] rounded-full transition-all duration-200"
+              className="px-3 py-1.5 cursor-pointer text-body-sm text-(--body) hover:text-(--ink) hover:bg-(--canvas-soft-2) rounded-full transition-all duration-200"
             >
               {item.label}
             </button>
@@ -58,7 +61,7 @@ const Navbar = ({ setSign }) => {
               navigate('/login');
               setSign('Login');
             }}
-            className="px-4 py-1.5 text-body-sm-strong text-[var(--body)] hover:text-[var(--ink)] cursor-pointer transition-colors"
+            className="px-4 py-1.5 text-body-sm-strong text-(--body) hover:text-(--ink) cursor-pointer transition-colors"
           >
             Log In
           </button>

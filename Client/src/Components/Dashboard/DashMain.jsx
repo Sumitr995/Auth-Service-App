@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckCircle2, AlertCircle, Key, Smartphone, Monitor, Globe } from 'lucide-react';
+import { BadgeCheck, AlertCircle, Key, Smartphone, Monitor, Globe } from 'lucide-react';
 
 const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
   let firstName = UserInfo?.name.split(" ")[0];
@@ -41,7 +41,7 @@ const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
                      ? 'bg-green-50 text-green-700 border-green-200' 
                      : 'bg-amber-50 text-amber-700 border-amber-200'
                    }`}>
-                      {UserInfo?.isAccountVerfied ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
+                      {UserInfo?.isAccountVerfied ? <BadgeCheck className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
                       {UserInfo?.isAccountVerfied ? 'Email Verified' : 'Unverified Email'}
                    </div>
                 </div>

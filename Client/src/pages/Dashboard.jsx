@@ -175,7 +175,7 @@ export default function AuthLandingPage({ setSign }) {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--canvas-soft)] text-[var(--ink)] relative overflow-hidden">
+    <div className="min-h-screen bg-(--canvas-soft) text-(--ink) relative overflow-hidden">
       {/* Navigation */}
       <DashNavbar showMenu={showMenu} UserInfo={UserInfo} setShowMenu={setShowMenu} handleVerify={handleVerify} handleReset={handleReset} handleLogout={handleLogout} />
       
@@ -189,12 +189,12 @@ export default function AuthLandingPage({ setSign }) {
           onClick={closeModal}
         >
           <div
-            className="bg-[var(--canvas)] border border-[var(--hairline)] rounded-xl p-8 max-w-md w-full mx-4 shadow-xl"
+            className="bg-(--canvas) border border-(--hairline) rounded-xl p-8 max-w-md w-full mx-4 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center space-x-3 mb-6">
-              <Mail className="w-6 h-6 text-[var(--link-blue)]" />
-              <h2 className="text-display-sm text-[var(--ink)]">Verify account</h2>
+              <Mail className="w-6 h-6 text-(--link-blue)" />
+              <h2 className="text-display-sm text-(--ink)">Verify account</h2>
             </div>
 
             {/* IF USER IS ALREADY VERIFIED */}
@@ -204,8 +204,8 @@ export default function AuthLandingPage({ setSign }) {
                   Email Verified
                 </div>
 
-                <p className="text-body-md text-[var(--body)] mt-4">
-                  Your email <span className="text-[var(--ink)] font-medium">{UserInfo?.email}</span> is verified.
+                <p className="text-body-md text-(--body) mt-4">
+                  Your email <span className="text-(--ink) font-medium">{UserInfo?.email}</span> is verified.
                 </p>
 
                 <button
@@ -221,8 +221,8 @@ export default function AuthLandingPage({ setSign }) {
                 {/* BEFORE OTP SENT */}
                 {!sentOtp && (
                   <>
-                    <p className="text-body-md text-[var(--body)] mb-8">
-                      We will send a 6-digit OTP to <span className="text-[var(--ink)] font-medium">{UserInfo?.email}</span>.
+                    <p className="text-body-md text-(--body) mb-8">
+                      We will send a 6-digit OTP to <span className="text-(--ink) font-medium">{UserInfo?.email}</span>.
                     </p>
 
                     <button
@@ -238,8 +238,8 @@ export default function AuthLandingPage({ setSign }) {
                 {/* AFTER OTP SENT */}
                 {sentOtp && (
                   <>
-                    <p className="text-body-sm text-[var(--body)] mb-4">
-                      Enter the 6-digit OTP sent to <span className="text-[var(--ink)] font-medium">{UserInfo?.email}</span>.
+                    <p className="text-body-sm text-(--body) mb-4">
+                      Enter the 6-digit OTP sent to <span className="text-(--ink) font-medium">{UserInfo?.email}</span>.
                     </p>
 
                     {/* OTP BOXES */}
@@ -261,7 +261,7 @@ export default function AuthLandingPage({ setSign }) {
                             }
                           }}
                           id={`otp-${idx}`}
-                          className="w-12 h-14 text-center text-display-sm bg-[var(--canvas-soft-2)] border border-[var(--hairline)] rounded-md focus:outline-none focus:border-[var(--ink)] text-[var(--ink)]"
+                          className="w-12 h-14 text-center text-display-sm bg-(--canvas-soft-2) border border-(--hairline) rounded-md focus:outline-none focus:border-(--ink) text-(--ink)  "
                         />
                       ))}
                     </div>
@@ -288,14 +288,14 @@ export default function AuthLandingPage({ setSign }) {
 
       {showModal === 'reset' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm" onClick={closeModal}>
-          <div className="bg-[var(--canvas)] border border-[var(--hairline)] rounded-xl p-8 max-w-md w-full mx-4 shadow-xl" onClick={e => e.stopPropagation()}>
+          <div className="bg-(--canvas) border border-(--hairline) rounded-xl p-8 max-w-md w-full mx-4 shadow-xl" onClick={e => e.stopPropagation()}>
             <div className="flex items-center space-x-3 mb-6">
               <KeyRound className="w-6 h-6 text-amber-500" />
-              <h2 className="text-display-sm text-[var(--ink)]">Reset password</h2>
+              <h2 className="text-display-sm text-(--ink)">Reset password</h2>
             </div>
             {(ResetState === "resetOTP") ?
               (<>
-                <p className="text-body-sm text-[var(--body)] mb-6">Enter your email to receive a password reset OTP.</p>
+                <p className="text-body-sm text-(--body) mb-6">Enter your email to receive a password reset OTP.</p>
                 <input
                   onChange={(e) => setResetPassword(e.target.value)}
                   type="email"
@@ -308,8 +308,8 @@ export default function AuthLandingPage({ setSign }) {
                 </button>
               </>) :
               (<>
-                <p className="text-body-sm text-[var(--body)] mb-4">
-                  Enter the 6-digit OTP sent to <span className="text-[var(--ink)] font-medium">{ResetPassword}</span>.
+                <p className="text-body-sm text-(--body) mb-4">
+                  Enter the 6-digit OTP sent to <span className="text-(--ink) font-medium">{ResetPassword}</span>.
                 </p>
 
                 {/* OTP BOXES */}
@@ -331,13 +331,13 @@ export default function AuthLandingPage({ setSign }) {
                         }
                       }}
                       id={`otp-${idx}`}
-                      className="w-12 h-14 text-center text-display-sm bg-[var(--canvas-soft-2)] border border-[var(--hairline)] rounded-md focus:outline-none focus:border-[var(--ink)] text-[var(--ink)]"
+                      className="w-12 h-14 text-center text-display-sm bg-(--canvas-soft-2) border border-(--hairline) rounded-md focus:outline-none focus:border-(--ink) text-(--ink)  "
                     />
                   ))}
                 </div>
                 {/* NEW PASSWORD INPUT */}
                 <div className="mb-8">
-                  <label className="text-caption-mono text-[var(--mute)] uppercase mb-2 block">New password</label>
+                  <label className="text-caption-mono text-(--mute) uppercase mb-2 block">New password</label>
                   <input
                     type="password"
                     placeholder="••••••••"
