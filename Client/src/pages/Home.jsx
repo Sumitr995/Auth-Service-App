@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar/Navbar'
-import Header from '../components/Landing/Landing'
+import Header from '../components/Header'
 import Footer from '../components/Footer/Footer'
 import IntegrateSection from '../components/Landing/IntegrateSection'
 import HowItWorksSection from '../components/Landing/HowItWorksSection'

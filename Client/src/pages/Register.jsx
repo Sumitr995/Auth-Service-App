@@ -37,7 +37,9 @@ const Register = ({ Sign, setSign }) => {
                 toast.error(res.data.message, { position: "top-right", autoClose: 2000 });
             }
         } catch (err) {
-            toast.error(err.response?.data?.message || "Something went wrong");
+            const errorMessage = err.response?.data?.message || err.message || "An unexpected error occurred. Please try again.";
+            toast.error(errorMessage, { position: "top-right", autoClose: 3000 });
+            console.error("Auth Error:", err);
         }
     };
 
