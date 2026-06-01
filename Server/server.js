@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: [process.env.FRONTEND_URL, "https://auth.sumitr995.me", "http://localhost:5137", "http://localhost:5173"],
     credentials: true,
   })
 );
@@ -37,7 +37,7 @@ app.use("/api/user", userRoutes);
 app.use("/api/app", appRoutes);
 
 // Fallback to index.html for any other routes (SPA support)
-app.get("/{*splat}", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
