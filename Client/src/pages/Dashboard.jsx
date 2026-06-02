@@ -4,7 +4,7 @@ import DashNavbar from '../components/Dashboard/DashNavbar';
 import DashMain from '../components/Dashboard/DashMain';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { toastManager } from '@/components/ui/toast'
 
 export default function AuthLandingPage({ setSign }) {
   const [showMenu, setShowMenu] = useState(false);
@@ -17,6 +17,14 @@ export default function AuthLandingPage({ setSign }) {
   const [NewPassword, setNewPassword] = useState("")
 
   const navigate = useNavigate();
+
+  const showSuccess = (message, timeout = 2000) => {
+    toastManager.add({ type: 'success', title: message, timeout });
+  };
+
+  const showError = (message, timeout = 2000) => {
+    toastManager.add({ type: 'error', title: message, timeout, priority: 'high' });
+  };
 
 
   const Backend_URL = import.meta.env.VITE_BACKEND_URL;
@@ -46,15 +54,9 @@ export default function AuthLandingPage({ setSign }) {
     );
 
     if (res.data.success) {
-      toast.success(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      showSuccess(res.data.message, 2000);
     } else {
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      showError(res.data.message, 2000);
     }
     setSentOtp(true);
 
@@ -70,24 +72,18 @@ export default function AuthLandingPage({ setSign }) {
 
 
       if (res.data.success) {
-        toast.success(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-        });
+        showSuccess(res.data.message, 2000);
         setTimeout(() => {
           setShowModal(null)
         }, 1500);
 
       } else {
-        toast.error(res.data.message, {
-          position: "top-right",
-          autoClose: 2000,
-        });
+        showError(res.data.message, 2000);
       }
 
 
     } catch (error) {
-      console.log("FETCH ERROR:", error.response?.data || err.message);
+      console.log("FETCH ERROR:", error.response?.data || error.message);
     }
   }
 
@@ -110,15 +106,9 @@ export default function AuthLandingPage({ setSign }) {
 
 
     if (res.data.success) {
-      toast.success(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      showSuccess(res.data.message, 2000);
     } else {
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      showError(res.data.message, 2000);
     }
 
     setTimeout(() => {
@@ -136,16 +126,10 @@ export default function AuthLandingPage({ setSign }) {
       { withCredentials: true }
     )
     if (res.data.success) {
-      toast.success(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      showSuccess(res.data.message, 2000);
       setResetState("Verifying")
     } else {
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      showError(res.data.message, 2000);
     }
   }
 
@@ -156,17 +140,11 @@ export default function AuthLandingPage({ setSign }) {
       { withCredentials: true }
     )
     if (res.data.success) {
-      toast.success(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      showSuccess(res.data.message, 2000);
       setShowModal(null)
       
     } else {
-      toast.error(res.data.message, {
-        position: "top-right",
-        autoClose: 2000,
-      });
+      showError(res.data.message, 2000);
     }
   }
 
@@ -271,7 +249,7 @@ export default function AuthLandingPage({ setSign }) {
                         if (otp.length === 6) {
                           verifyEmail()
                         } else {
-                          toast.error("Please enter all 6 digits");
+                          showError("Please enter all 6 digits", 2000);
                         }
                       }}
                       className="button-primary w-full"
@@ -351,7 +329,7 @@ export default function AuthLandingPage({ setSign }) {
                     if (otp.length === 6) {
                       ResetPwdOtp()
                     } else {
-                      toast.error("Please enter all 6 digits");
+                      showError("Please enter all 6 digits", 2000);
                     }
                   }}
                   className="button-primary w-full"
@@ -363,7 +341,6 @@ export default function AuthLandingPage({ setSign }) {
           </div>
         </div>
       )}
-      <ToastContainer />
     </div>
   );
 }

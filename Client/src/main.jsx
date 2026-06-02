@@ -5,16 +5,19 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import axios from 'axios'
+import { ToastProvider } from './components/ui/toast.jsx'
 
 //cookie saving
 axios.defaults.withCredentials = true;
 
 
 createRoot(document.getElementById('root')).render(
-  <AuthProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </AuthProvider>
+  <ToastProvider  position="top-right">
+    <AuthProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </AuthProvider>
+  </ToastProvider>
 
 )

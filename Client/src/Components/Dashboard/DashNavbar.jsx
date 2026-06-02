@@ -1,6 +1,4 @@
 import React from 'react'
-import { User, LogOut, Shield, KeyRound, Mail, ChevronDown } from 'lucide-react';
-import { assets } from '../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 
 const DashNavbar = ({ showMenu, setShowMenu, handleLogout, handleReset, handleVerify, UserInfo }) => {

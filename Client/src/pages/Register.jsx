@@ -1,16 +1,25 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { assets } from "../assets/assets";
 import { useForm } from "react-hook-form"
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from 'axios';
 import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from 'react-router-dom';
+import { Eye, EyeOff } from 'lucide-react';
+import { toastManager } from '@/components/ui/toast'
 
 const Register = ({ Sign, setSign }) => {
     const { setUser } = useContext(AuthContext);
+    const [showPassword, setShowPassword] = useState(false);
     const Backend_URL = import.meta.env.VITE_BACKEND_URL;
     const navigate = useNavigate();
+
+    const showSuccess = (message, timeout = 2000) => {
+        toastManager.add({ type: 'success', title: message, timeout });
+    };
+
+    const showError = (message, timeout = 2000) => {
+        toastManager.add({ type: 'error', title: message, timeout, priority: 'high' });
+    };
 
     const {
         register,
@@ -30,28 +39,28 @@ const Register = ({ Sign, setSign }) => {
 
             if (res.data.success) {
                 setUser(true);
-                toast.success(res.data.message, { position: "top-right", autoClose: 2000 });
+                showSuccess(res.data.message, 2000);
                 reset();
                 setTimeout(() => navigate('/dashboard'), 1500);
             } else {
-                toast.error(res.data.message, { position: "top-right", autoClose: 2000 });
+                showError(res.data.message, 2000);
             }
         } catch (err) {
             const errorMessage = err.response?.data?.message || err.message || "An unexpected error occurred. Please try again.";
-            toast.error(errorMessage, { position: "top-right", autoClose: 3000 });
+            showError(errorMessage, 3000);
             console.error("Auth Error:", err);
         }
     };
 
     return (
-        <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[var(--canvas-soft)] selection:bg-[var(--link-blue)] selection:text-white">
+        <div className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-(--canvas-soft) selection:bg-(--link-blue) selection:text-white">
 
             {/* Logo */}
             <div className="absolute top-10 left-10 md:left-12">
                 <img
                     src={assets.logo}
                     alt="Logo"
-                    className="h-8 w-auto cursor-pointer dark:invert"
+                    className="h-15 w-auto cursor-pointer dark:invert"
                     onClick={() => navigate('/')}
                 />
             </div>
@@ -63,10 +72,10 @@ const Register = ({ Sign, setSign }) => {
 
                 <div className="p-8 md:p-10">
                     <div className="mb-8">
-                        <h1 className="text-display-lg text-[var(--ink)] mb-2">
+                        <h1 className="text-display-lg text-(--ink) mb-2">
                             {Sign === 'Sign Up' ? 'Create your account.' : 'Welcome back.'}
                         </h1>
-                        <p className="text-body-md text-[var(--body)]">
+                        <p className="text-body-md text-(--body)">
                             {Sign === 'Sign Up'
                                 ? 'Start building your next SaaS today.'
                                 : 'Sign in to manage your deployment.'}
@@ -77,12 +86,12 @@ const Register = ({ Sign, setSign }) => {
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                         {Sign === 'Sign Up' && (
                             <div className="space-y-1.5">
-                                <label className="text-caption-mono text-[var(--mute)] uppercase tracking-wider">
+                                <label className="text-caption-mono text-(--mute) uppercase tracking-wider">
                                     Full Name
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="Guillermo Rauch"
+                                    placeholder="Sumit Rathod"
                                     className="form-input w-full"
                                     {...register("name", { required: Sign === 'Sign Up' })}
                                 />
@@ -91,7 +100,7 @@ const Register = ({ Sign, setSign }) => {
                         )}
 
                         <div className="space-y-1.5">
-                            <label className="text-caption-mono text-[var(--mute)] uppercase tracking-wider">
+                            <label className="text-caption-mono text-(--mute) uppercase tracking-wider">
                                 Email Address
                             </label>
                             <input
@@ -105,21 +114,36 @@ const Register = ({ Sign, setSign }) => {
 
                         <div className="space-y-1.5">
                             <div className="flex justify-between items-center">
-                                <label className="text-caption-mono text-[var(--mute)] uppercase tracking-wider">
+                                <label className="text-caption-mono text-(--mute) uppercase tracking-wider">
                                     Password
                                 </label>
                                 {Sign === 'Login' && (
-                                    <button type="button" className="text-caption text-[var(--mute)] hover:text-[var(--ink)] transition-colors">
+                                    <button type="button" className="text-caption text-(--mute) hover:text-(--ink) transition-colors">
                                         Forgot password?
                                     </button>
                                 )}
                             </div>
-                            <input
-                                type="password"
-                                placeholder="••••••••"
-                                className="form-input w-full"
-                                {...register("password", { required: true, minLength: 6 })}
-                            />
+                            <div className="relative">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="••••••••"
+                                    className="form-input w-full pr-12"
+                                    {...register("password", { required: true, minLength: 6 })}
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword((prev) => !prev)}
+                                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-(--mute) hover:text-(--ink) transition-colors"
+                                >
+                                    {showPassword ? (
+                                        <EyeOff className="h-4 w-4" strokeWidth={1.8} />
+                                    ) : (
+                                        <Eye className="h-4 w-4" strokeWidth={1.8} />
+                                    )}
+                                </button>
+                            </div>
                         </div>
 
                         <button
@@ -130,8 +154,8 @@ const Register = ({ Sign, setSign }) => {
                         </button>
                     </form>
 
-                    <div className="mt-8 pt-6 border-t border-[var(--hairline)] text-center">
-                        <p className="text-body-sm text-[var(--body)]">
+                    <div className="mt-8 pt-6 border-t border-(--hairline) text-center">
+                        <p className="text-body-sm text-(--body)">
                             {Sign === 'Sign Up' ? 'Already have an account?' : "Don't have an account?"}
                             {' '}
                             <button
@@ -139,7 +163,7 @@ const Register = ({ Sign, setSign }) => {
                                     setSign(Sign === 'Sign Up' ? 'Login' : 'Sign Up');
                                     reset();
                                 }}
-                                className="text-[var(--ink)] font-medium hover:underline underline-offset-4"
+                                className="text-(--ink) font-medium hover:underline underline-offset-4"
                             >
                                 {Sign === 'Sign Up' ? 'Log in' : 'Sign up'}
                             </button>
@@ -149,11 +173,9 @@ const Register = ({ Sign, setSign }) => {
             </div>
 
             {/* Footer semantic */}
-            <div className="mt-12 text-caption-mono text-[var(--mute)] uppercase tracking-tighter">
+            <div className="mt-12 text-caption-mono text-(--mute) uppercase tracking-tighter">
                 &copy; {new Date().getFullYear()} — Auth Service App
             </div>
-
-            <ToastContainer />
         </div>
     );
 };

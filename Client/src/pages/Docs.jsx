@@ -157,12 +157,12 @@ bun install
 
 # (dashboard) generate an API key
 # copy it into your backend env
-AUTHVAULT_API_KEY=\"atk_live_...\"
+AUTHVAULT_API_KEY="atk_live_..."
 
 # send requests with the API key
 curl -X POST https://api.your-domain.com/v1/authenticate \\
-  -H \"x-api-key: $AUTHVAULT_API_KEY\" \\
-  -H \"content-type: application/json\" \\
+  -H "x-api-key: $AUTHVAULT_API_KEY" \\
+  -H "content-type: application/json" \\
   -d '{"email":"user@acme.com","password":"..."}'\n`}
                       </pre>
                     </div>

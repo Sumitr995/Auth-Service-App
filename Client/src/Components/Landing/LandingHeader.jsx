@@ -1,9 +1,8 @@
 import React from 'react'
-import { assets } from '../../assets/assets'
 import { useNavigate } from 'react-router-dom'
 import ShapeGrid from '../ui/ShapeGrid'
 
-const Header = ({ setSign }) => {
+const LandingHeader = ({ setSign }) => {
     const navigate = useNavigate()
 
     return (
@@ -66,4 +65,4 @@ const Header = ({ setSign }) => {
     )
 }
 
-export default Header
+export default LandingHeader

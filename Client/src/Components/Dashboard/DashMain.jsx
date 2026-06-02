@@ -1,8 +1,7 @@
 import React from 'react'
-import { BadgeCheck, AlertCircle, Key, Smartphone, Monitor, Globe } from 'lucide-react';
+import { BadgeCheck, AlertCircle, Key, Smartphone, Monitor, Globe, ShieldAlert } from 'lucide-react';
 
 const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
-  let firstName = UserInfo?.name.split(" ")[0];
   let initials = UserInfo?.name.trim().split(/\s+/).map(word => word[0].toUpperCase()).join("");
   
   return (
@@ -152,8 +151,5 @@ const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
     </main>
   )
 }
-
-// Fixed missing ShieldAlert import manually since I used it
-import { ShieldAlert } from 'lucide-react';
 
 export default DashMain;
