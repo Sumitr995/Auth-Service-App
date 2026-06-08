@@ -18,8 +18,13 @@ export const register = async (req, res) => {
       password,
     });
 
+    //Creating JWT Token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
     // Set cookie after registration to log the user in immediately
-    res.cookie("token", result.accessToken, {
+    res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",

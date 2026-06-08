@@ -8,17 +8,18 @@ import { Eye, EyeOff } from 'lucide-react';
 import { toastManager } from '@/components/ui/toast'
 
 const Register = ({ Sign, setSign }) => {
+    console.log(import.meta.env.VITE_BACKEND_URL);
     const { setUser } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const Backend_URL = import.meta.env.VITE_BACKEND_URL;
     const navigate = useNavigate();
 
-    const showSuccess = (message, timeout = 2000) => {
+    const showSuccess = (message, timeout = 1000) => {
         toastManager.add({ type: 'success', title: message, timeout });
     };
 
-    const showError = (message, timeout = 2000) => {
-        toastManager.add({ type: 'error', title: message, timeout, priority: 'high' });
+    const showError = (message, timeout = 1000) => {
+        toastManager.add({ type: 'error', title: message, timeout });
     };
 
     const {

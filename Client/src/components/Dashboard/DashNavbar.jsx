@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 
 const DashNavbar = ({ showMenu, setShowMenu, handleLogout, handleReset, handleVerify, UserInfo }) => {
   const navigate = useNavigate();
-  let firstName = UserInfo?.name.split(" ")[0];
-  let firstLetters = UserInfo?.name.trim().split(/\s+/).map(word => word[0].toUpperCase()).join("");
+  let firstName = UserInfo?.name ? UserInfo.name.split(" ")[0] : "";
+  let firstLetters = UserInfo?.name ? UserInfo.name.trim().split(/\s+/).map(word => word[0].toUpperCase()).join("") : "";
 
   return (
     <nav className="sticky top-0 z-50 w-full h-[64px] border-b border-[var(--hairline)] bg-[var(--canvas)] flex items-center px-4 md:px-6">

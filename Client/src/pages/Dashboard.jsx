@@ -50,6 +50,7 @@ export default function AuthLandingPage({ setSign }) {
   // Sending OTP 
   const sendOTP = async () => {
     let res = await axios.post(`${Backend_URL}/auth/send-otp`,
+      {},
       { withCredentials: true }
     );
 
@@ -101,6 +102,7 @@ export default function AuthLandingPage({ setSign }) {
 
     res = await axios.post(
       `${Backend_URL}/auth/logout`,
+      {},
       { withCredentials: true }
     );
 
@@ -176,7 +178,7 @@ export default function AuthLandingPage({ setSign }) {
             </div>
 
             {/* IF USER IS ALREADY VERIFIED */}
-            {UserInfo?.isAccountVerfied && (
+            {UserInfo?.isAccountVerified && (
               <div className="flex flex-col items-center text-center mb-6">
                 <div className="px-3 py-1 rounded-full bg-green-50 text-green-600 border border-green-200 text-caption font-medium">
                   Email Verified
@@ -194,7 +196,7 @@ export default function AuthLandingPage({ setSign }) {
                 </button>
               </div>
             )}
-            {!UserInfo?.isAccountVerfied && (
+            {!UserInfo?.isAccountVerified && (
               <>
                 {/* BEFORE OTP SENT */}
                 {!sentOtp && (
