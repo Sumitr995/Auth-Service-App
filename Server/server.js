@@ -10,6 +10,8 @@ import appRoutes from "./routes/appRoutes.js";
 const app = express();
 const Port = process.env.PORT || 3000;
 
+console.log("Starting server in", process.env.NODE_ENV, "mode");
+console.log("Frontend URL:", process.env.FRONTEND_URL);
 app.use(express.json());
 app.use(cookieParser());
 
