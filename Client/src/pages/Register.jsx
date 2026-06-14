@@ -1,17 +1,15 @@
 import React, { useContext, useState } from 'react'
 import { assets } from "../assets/assets";
 import { useForm } from "react-hook-form"
-import axios from 'axios';
+import api from '../api';
 import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { toastManager } from '@/components/ui/toast'
 
 const Register = ({ Sign, setSign }) => {
-    console.log(import.meta.env.VITE_BACKEND_URL);
     const { setUser } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
-    const Backend_URL = import.meta.env.VITE_BACKEND_URL;
     const navigate = useNavigate();
 
     const showSuccess = (message, timeout = 1000) => {
@@ -33,9 +31,9 @@ const Register = ({ Sign, setSign }) => {
         let res;
         try {
             if (Sign === 'Sign Up') {
-                res = await axios.post(`${Backend_URL}/auth/register`, data, { withCredentials: true });
+                res = await api.post(`/auth/register`, data);
             } else {
-                res = await axios.post(`${Backend_URL}/auth/login`, data, { withCredentials: true });
+                res = await api.post(`/auth/login`, data);
             }
 
             if (res.data.success) {

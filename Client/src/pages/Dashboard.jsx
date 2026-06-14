@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { User, LogOut, Shield, KeyRound, Mail, Activity, Lock, Bell } from 'lucide-react';
 import DashNavbar from '../components/Dashboard/DashNavbar';
 import DashMain from '../components/Dashboard/DashMain';
-import axios from 'axios';
+import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { toastManager } from '@/components/ui/toast'
 
@@ -27,15 +27,10 @@ export default function AuthLandingPage({ setSign }) {
   };
 
 
-  const Backend_URL = import.meta.env.VITE_BACKEND_URL;
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(
-          `${Backend_URL}/user/data`,
-          { withCredentials: true }
-        );
+        const res = await api.get('/user/data');
         setUserInfo(res.data.userData);
         console.log(res.data.userData);
 
@@ -49,10 +44,7 @@ export default function AuthLandingPage({ setSign }) {
 
   // Sending OTP 
   const sendOTP = async () => {
-    let res = await axios.post(`${Backend_URL}/auth/send-otp`,
-      {},
-      { withCredentials: true }
-    );
+    let res = await api.post('/auth/send-otp');
 
     if (res.data.success) {
       showSuccess(res.data.message, 2000);
@@ -66,9 +58,7 @@ export default function AuthLandingPage({ setSign }) {
 
   const verifyEmail = async () => {
     try {
-      let res = await axios.post(`${Backend_URL}/auth/verifyEmail`,
-        { otp: otp },
-        { withCredentials: true });
+      let res = await api.post('/auth/verifyEmail', { otp: otp });
       // console.log(otp);
 
 
@@ -100,11 +90,7 @@ export default function AuthLandingPage({ setSign }) {
   const handleLogout = async () => {
     let res;
 
-    res = await axios.post(
-      `${Backend_URL}/auth/logout`,
-      {},
-      { withCredentials: true }
-    );
+    res = await api.post('/auth/logout');
 
 
     if (res.data.success) {
@@ -123,10 +109,7 @@ export default function AuthLandingPage({ setSign }) {
 
   const resetPwd = async () => {
     let res;
-    res = await axios.post(`${Backend_URL}/auth/sent-reset-otp`,
-      { email: ResetPassword },
-      { withCredentials: true }
-    )
+    res = await api.post('/auth/sent-reset-otp', { email: ResetPassword })
     if (res.data.success) {
       showSuccess(res.data.message, 2000);
       setResetState("Verifying")
@@ -137,9 +120,8 @@ export default function AuthLandingPage({ setSign }) {
 
   const ResetPwdOtp = async () => {
     let res;
-    res = await axios.post(`${Backend_URL}/auth/reset-password`,
-      { email:ResetPassword, otp: otp, newPassword:NewPassword },
-      { withCredentials: true }
+    res = await api.post('/auth/reset-password',
+      { email:ResetPassword, otp: otp, newPassword:NewPassword }
     )
     if (res.data.success) {
       showSuccess(res.data.message, 2000);
