@@ -11,6 +11,11 @@ import appRoutes from "./routes/appRoutes.js";
 const app = express();
 const Port = process.env.PORT || 3000;
 
+// Set default NODE_ENV
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = "development";
+}
+
 console.log("Starting server in", process.env.NODE_ENV, "mode");
 console.log("Frontend URL:", process.env.FRONTEND_URL);
 
@@ -18,10 +23,27 @@ console.log("Frontend URL:", process.env.FRONTEND_URL);
 app.use(express.json());
 app.use(cookieParser());
 
+const allowedOrigins = [
+  "https://auth.sumitr995.me",
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3000"
+];
+
 app.use(
   cors({
-    origin: "https://auth.sumitr995.me",
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
+    optionsSuccessStatus: 200
   })
 );
 
@@ -39,7 +61,8 @@ const startServer = async () => {
   try {
     await ConnectDB();
 
-    if (process.env.NODE_ENV !== "production") {
+    // Listen locally, but let Vercel handle production listening
+    if (!process.env.VERCEL) {
       app.listen(Port, () => {
         console.log(`Server listening on port ${Port}`);
       });
