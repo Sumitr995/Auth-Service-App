@@ -1,8 +1,30 @@
 import React from 'react'
 import { BadgeCheck, AlertCircle, Key, Smartphone, Monitor, Globe, ShieldAlert } from 'lucide-react';
+import VerifyEmailModal from './VerifyEmailModal';
+import ResetPasswordModal from './ResetPasswordModal';
 
-const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
-  let initials = UserInfo?.name.trim().split(/\s+/).map(word => word[0].toUpperCase()).join("");
+const DashMain = ({ 
+    handleReset, 
+    handleVerify, 
+    UserInfo, 
+    showModal, 
+    closeModal,
+    sentOtp,
+    sendOTP,
+    verifyEmail,
+    otp,
+    setOtp,
+    ResetState,
+    setResetState,
+    ResetPassword,
+    setResetPassword,
+    NewPassword,
+    setNewPassword,
+    resetPwd,
+    ResetPwdOtp,
+    showError
+}) => {
+  let initials = UserInfo?.name ? UserInfo.name.trim().split(/\s+/).map(word => word[0].toUpperCase()).join("") : "";
   
   return (
     <main className="mx-auto max-w-[1024px] px-4 md:px-8 py-10 md:py-16">
@@ -36,17 +58,17 @@ const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
                    <p className="text-body-md-strong text-[var(--ink)] mb-1">{UserInfo?.name}</p>
                    <p className="text-body-sm text-[var(--body)] mb-3">{UserInfo?.email}</p>
                    <div className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-caption border ${
-                     UserInfo?.isAccountVerfied 
+                     UserInfo?.isAccountVerified 
                      ? 'bg-green-50 text-green-700 border-green-200' 
                      : 'bg-amber-50 text-amber-700 border-amber-200'
                    }`}>
-                      {UserInfo?.isAccountVerfied ? <BadgeCheck className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
-                      {UserInfo?.isAccountVerfied ? 'Email Verified' : 'Unverified Email'}
+                      {UserInfo?.isAccountVerified ? <BadgeCheck className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
+                      {UserInfo?.isAccountVerified ? 'Email Verified' : 'Unverified Email'}
                    </div>
                 </div>
              </div>
              
-             {!UserInfo?.isAccountVerfied && (
+             {!UserInfo?.isAccountVerified && (
                 <div className="mt-6 p-4 rounded-md bg-[var(--canvas-soft-2)] border border-[var(--hairline)] flex items-center justify-between">
                    <div>
                       <p className="text-body-sm-strong text-[var(--ink)]">Verify your email address</p>
@@ -56,7 +78,7 @@ const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
                       onClick={handleVerify}
                       className="nav-cta-signup h-9 px-4 cursor-pointer"
                    >
-                      Send OTP
+                      Verify Now
                    </button>
                 </div>
              )}
@@ -148,6 +170,37 @@ const DashMain = ({ handleReset, handleVerify, UserInfo }) => {
         </section>
 
       </div>
+
+      {/* Modals */}
+      {showModal === 'verify' && (
+        <VerifyEmailModal 
+            UserInfo={UserInfo}
+            sentOtp={sentOtp}
+            sendOTP={sendOTP}
+            verifyEmail={verifyEmail}
+            otp={otp}
+            setOtp={setOtp}
+            closeModal={closeModal}
+            showError={showError}
+        />
+      )}
+
+      {showModal === 'reset' && (
+        <ResetPasswordModal 
+            ResetState={ResetState}
+            setResetState={setResetState}
+            ResetPassword={ResetPassword}
+            setResetPassword={setResetPassword}
+            otp={otp}
+            setOtp={setOtp}
+            NewPassword={NewPassword}
+            setNewPassword={setNewPassword}
+            resetPwd={resetPwd}
+            ResetPwdOtp={ResetPwdOtp}
+            closeModal={closeModal}
+            showError={showError}
+        />
+      )}
     </main>
   )
 }

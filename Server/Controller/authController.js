@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import transporter from "../config/nodemailer.js";
+import { getOtpTemplate, getWelcomeTemplate, getGeneralTemplate } from "../utils/emailTemplates.js";
 
 // Functions to control Register, Login, Logout etc
 
@@ -43,9 +44,19 @@ export const register = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
+    // sending a Welcome mail
+    const mailOption = {
+      from: process.env.SENDER_EMAIL,
+      to: email,
+      subject: "Welcome to Auth Service!",
+      html: getWelcomeTemplate(name),
+    };
+
+    await transporter.sendMail(mailOption);
 
     return res.status(201).json({ success: true, message: "User Registered Successfully!" });
   } catch (error) {
@@ -85,7 +96,7 @@ export const login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // converted in ms
     });
 
@@ -102,7 +113,7 @@ export const logout = async (req, res) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
 
     return res.status(200).json({ success: true, message: "Logged Out" });
@@ -141,7 +152,7 @@ export const sendVerifyOtp = async (req, res) => {
       from: process.env.SENDER_EMAIL,
       to: user.email,
       subject: "Account Verification OTP",
-      text: `Your Account Verification OTP is ${otp}. Confirm your account using this OTP.`,
+      html: getOtpTemplate(otp, "Verify your email", `Use the code below to verify your account for ${user.email}.`),
     };
 
     await transporter.sendMail(mailOption);
@@ -195,7 +206,7 @@ export const verifyEmail = async (req, res) => {
       from: process.env.SENDER_EMAIL,
       to: user.email,
       subject: "Account Verification Successful",
-      text: `Your email has been Successfully Verified. You are now ready to get started!`,
+      html: getGeneralTemplate("Verification Successful", "Your email has been successfully verified. You now have full access to all platform features."),
     };
 
     await transporter.sendMail(mailOption);
@@ -245,8 +256,8 @@ export const sendResetotp = async (req, res) => {
     const mailOption = {
       from: process.env.SENDER_EMAIL,
       to: user.email,
-      subject: "Password Reset Otp",
-      text: `Your Reset Password otp is ${otp}. Use these OTP for resetting your password.`,
+      subject: "Password Reset OTP",
+      html: getOtpTemplate(otp, "Reset your password", `We received a request to reset the password for ${user.email}. Use the code below to proceed.`),
     };
 
     await transporter.sendMail(mailOption);

@@ -8,7 +8,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { toastManager } from '@/components/ui/toast'
 
 const Register = ({ Sign, setSign }) => {
-    const { setUser } = useContext(AuthContext);
+    const { setIsLoggedin, getUserData } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
@@ -37,7 +37,8 @@ const Register = ({ Sign, setSign }) => {
             }
 
             if (res.data.success) {
-                setUser(true);
+                setIsLoggedin(true);
+                await getUserData();
                 showSuccess(res.data.message, 2000);
                 reset();
                 setTimeout(() => navigate('/dashboard'), 1500);
