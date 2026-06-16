@@ -11,6 +11,9 @@ import appRoutes from "./routes/appRoutes.js";
 const app = express();
 const Port = process.env.PORT || 3000;
 
+// Trust the first proxy (Vercel) to allow secure cookies to be passed correctly
+app.set('trust proxy', 1);
+
 // Set default NODE_ENV
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = "development";
