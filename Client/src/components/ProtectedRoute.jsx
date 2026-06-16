@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { AuthContext } from '../Context/AuthContext';
-import { Spinner } from './ui/spinner';
+import { AuthContext } from '@/Context/AuthContext';
+import { Spinner } from '@/components/ui/spinner';
 
 const ProtectedRoute = () => {
   const { isLoggedin, isLoading } = useContext(AuthContext);

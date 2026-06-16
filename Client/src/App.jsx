@@ -10,8 +10,8 @@ import Features from './pages/Features'
 import Docs from './pages/Docs'
 import Integration from './pages/Integration'
 import Price from './pages/Price'
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
-import PublicRoute from './components/ProtectedRoute/PublicRoute'
+import ProtectedRoute from './components/ProtectedRoute'
+import PublicRoute from './components/PublicRoute'
 
 const App = () => {
   const [Sign, setSign] = useState('Sign Up');
