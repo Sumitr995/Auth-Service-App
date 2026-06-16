@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { AuthContext } from '@/Context/AuthContext';
 import { Spinner } from '@/components/ui/spinner';
 
-const PublicRoute = () => {
-  const { isLoggedin, isLoading } = useContext(AuthContext);
+const PublicRoute = ({ isLoggedin, isLoading }) => {
 
   if (isLoading) {
     return (

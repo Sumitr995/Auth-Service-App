@@ -1,14 +1,12 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { assets } from "../assets/assets";
 import { useForm } from "react-hook-form"
 import api from '../api';
-import { AuthContext } from "../Context/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
 import { toastManager } from '@/components/ui/toast'
 
-const Register = ({ Sign, setSign }) => {
-    const { setIsLoggedin, getUserData } = useContext(AuthContext);
+const Register = ({ Sign, setSign, setIsLoggedin, getUserData }) => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
@@ -37,11 +35,12 @@ const Register = ({ Sign, setSign }) => {
             }
 
             if (res.data.success) {
-                setIsLoggedin(true);
+                // Fetch data first, then set logged in state to trigger redirect
                 await getUserData();
+                setIsLoggedin(true);
                 showSuccess(res.data.message, 2000);
                 reset();
-                setTimeout(() => navigate('/dashboard'), 1500);
+                // Removed redundant navigate since PublicRoute will handle it
             } else {
                 showError(res.data.message, 2000);
             }

@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashNavbar from '../components/Dashboard/DashNavbar';
 import DashMain from '../components/Dashboard/DashMain';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { toastManager } from '@/components/ui/toast'
-import { AuthContext } from '../Context/AuthContext';
 
-export default function AuthLandingPage({ setSign }) {
-  const { user, setUser, setIsLoggedin } = useContext(AuthContext);
+export default function AuthLandingPage({ setSign, user, setUser, setIsLoggedin }) {
   const [showMenu, setShowMenu] = useState(false);
   const [showModal, setShowModal] = useState(null);
   const [sentOtp, setSentOtp] = useState(false);
@@ -35,6 +33,7 @@ export default function AuthLandingPage({ setSign }) {
     } else {
       showError(res.data.message, 2000);
     }
+    
     setSentOtp(true);
   }
 
