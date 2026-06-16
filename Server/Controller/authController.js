@@ -43,16 +43,10 @@ export const register = async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
-      secure: true, // Always true for cross-site cookies in prod
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     };
-
-    // In development (localhost), we might need different settings if not using HTTPS
-    if (process.env.NODE_ENV !== "production") {
-      cookieOptions.secure = false;
-      cookieOptions.sameSite = "lax";
-    }
 
     res.cookie("token", token, cookieOptions);
 
@@ -103,15 +97,10 @@ export const login = async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     };
-
-    if (process.env.NODE_ENV !== "production") {
-      cookieOptions.secure = false;
-      cookieOptions.sameSite = "lax";
-    }
 
     res.cookie("token", token, cookieOptions);
 
@@ -127,14 +116,9 @@ export const logout = async (req, res) => {
   try {
     const cookieOptions = {
       httpOnly: true,
-      secure: true,
-      sameSite: "none",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     };
-
-    if (process.env.NODE_ENV !== "production") {
-      cookieOptions.secure = false;
-      cookieOptions.sameSite = "lax";
-    }
 
     res.clearCookie("token", cookieOptions);
     res.clearCookie("jwt", cookieOptions); // Clear potential duplicate
