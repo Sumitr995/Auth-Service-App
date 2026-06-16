@@ -41,12 +41,20 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.cookie("token", token, {
+    const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: true, // Always true for cross-site cookies in prod
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    };
+
+    // In development (localhost), we might need different settings if not using HTTPS
+    if (process.env.NODE_ENV !== "production") {
+      cookieOptions.secure = false;
+      cookieOptions.sameSite = "lax";
+    }
+
+    res.cookie("token", token, cookieOptions);
 
     // sending a Welcome mail
     const mailOption = {
@@ -93,12 +101,19 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.cookie("token", token, {
+    const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // converted in ms
-    });
+      secure: true,
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    };
+
+    if (process.env.NODE_ENV !== "production") {
+      cookieOptions.secure = false;
+      cookieOptions.sameSite = "lax";
+    }
+
+    res.cookie("token", token, cookieOptions);
 
     return res.status(200).json({ success: true, message: "You Logged In !!" });
   } catch (error) {
@@ -110,11 +125,19 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.clearCookie("token", {
+    const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-    });
+      secure: true,
+      sameSite: "none",
+    };
+
+    if (process.env.NODE_ENV !== "production") {
+      cookieOptions.secure = false;
+      cookieOptions.sameSite = "lax";
+    }
+
+    res.clearCookie("token", cookieOptions);
+    res.clearCookie("jwt", cookieOptions); // Clear potential duplicate
 
     return res.status(200).json({ success: true, message: "Logged Out" });
   } catch (error) {
