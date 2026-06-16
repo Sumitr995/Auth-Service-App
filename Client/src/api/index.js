@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const PROD_URL = 'https://sumitr995-auth-backend.vercel.app/api';
+const PROD_URL = 'https://auth-api.sumitr995.me/api';
 const LOCAL_URL = 'http://localhost:3000/api';
 
 // Initial baseURL based on environment
