@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const getUserData = async () => {
     try {
       const { data } = await api.get("/user/data");
+      console.log("Fetched user data:", data);
       if (data.success) {
         setUser(data.userData);
         setIsLoggedin(true);
